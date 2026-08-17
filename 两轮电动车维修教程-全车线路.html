@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>两轮电动车维修教程 · 全车线路详解</title>
+<style>
+  :root{
+    --bg:#f6f8fa;
+    --card:#ffffff;
+    --ink:#1f2933;
+    --muted:#52606d;
+    --line:#e4e7eb;
+    --blue:#1a6fd0;
+    --blue-dark:#12509e;
+    --red:#d32f2f;
+    --orange:#e65100;
+    --green:#2e7d32;
+    --warn-bg:#fff7e6;
+    --warn-line:#ffd591;
+    --danger-bg:#fff1f0;
+    --danger-line:#ffa39e;
+    --info-bg:#e6f4ff;
+    --info-line:#91caff;
+    --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+  header.hero{background:linear-gradient(135deg,#0d2b52 0%,#1a6fd0 60%,#2f8de0 100%);color:#fff;padding:48px 20px 56px}
+  header.hero .inner{max-width:1080px;margin:0 auto}
+  header.hero h1{margin:0 0 10px;font-size:30px;letter-spacing:.5px}
+  header.hero p{margin:4px 0;color:#d6e6ff;font-size:15px}
+  .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 12px;font-size:12.5px;margin-right:8px;margin-top:10px}
+  nav.toc{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+  nav.toc .inner{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px;padding:10px 20px}
+  nav.toc a{color:var(--muted);text-decoration:none;font-size:13.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+  nav.toc a:hover{color:var(--blue);border-color:var(--blue);background:var(--info-bg)}
+  section{margin-top:44px}
+  h2{font-size:23px;margin:0 0 6px;padding-bottom:10px;border-bottom:3px solid var(--blue);display:inline-block}
+  h2 .no{color:var(--blue);margin-right:10px;font-weight:700}
+  h3{font-size:18px;margin:28px 0 10px;color:var(--blue-dark)}
+  h3::before{content:"▍";color:var(--blue);margin-right:6px}
+  h4{font-size:15.5px;margin:20px 0 8px}
+  p{margin:10px 0;color:var(--ink)}
+  .lead{color:var(--muted)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+  .callout{border-radius:10px;padding:14px 18px;margin:16px 0;font-size:14.5px}
+  .callout.warn{background:var(--warn-bg);border:1px solid var(--warn-line)}
+  .callout.danger{background:var(--danger-bg);border:1px solid var(--danger-line)}
+  .callout.info{background:var(--info-bg);border:1px solid var(--info-line)}
+  .callout>b:first-child{display:block;margin-bottom:6px}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+  th{background:#f0f5fb;color:var(--blue-dark);font-weight:600;white-space:nowrap}
+  tr:nth-child(even) td{background:#fafbfc}
+  code{font-family:var(--mono);background:#f1f3f5;padding:1px 6px;border-radius:4px;font-size:13px;color:#c7254e}
+  .wire{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid rgba(0,0,0,.25)}
+  .fig{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin:16px 0;overflow-x:auto}
+  .fig figcaption{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+  svg text{font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  ul,ol{padding-left:24px;margin:10px 0}
+  li{margin:5px 0}
+  .kbd{font-family:var(--mono);font-size:12.5px;background:#2b3a4a;color:#fff;padding:2px 8px;border-radius:5px}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <h1>两轮电动车维修教程 · 全车线路详解</h1>
+    <p>面向已具备基础电路知识与换胎/刹车维修能力的进阶教程</p>
+    <p style="font-size:13.5px;color:#a8c8f0">重点：全车电气线路结构 · 控制器引脚定义 · 线路功能点 · 故障定位</p>
+    <div>
+      <span class="badge">48V / 60V / 72V 系统</span>
+      <span class="badge">无刷电机 + 霍尔</span>
+      <span class="badge">全车接线图 SVG</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="inner">
+    <a href="#s1">1 安全须知</a>
+    <a href="#s2">2 电气系统总览</a>
+    <a href="#s3">3 全车线路总览图</a>
+    <a href="#s4">4 线路功能点详解</a>
+    <a href="#s5">5 线色与线径标准</a>
+    <a href="#s6">6 故障排查</a>
+    <a href="#s7">7 维修流程与工具</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= 1 安全须知 ================= -->
+<section id="s1">
+  <h2><span class="no">1</span>安全须知（动手前必读）</h2>
+  <div class="card">
+    <div class="callout danger">
+      <b>高压危险</b>
+      两轮电动车动力电池标称 48V / 60V / 72V，充满电可达 <b>54.6V / 67.2V / 84V</b>，远超人体安全电压 36V。拆线、插拔接插件前<b>务必先断开总开关并拔下电池连接器（安德森插头/品字插头）</b>。锂电池短路电流极大，短路可瞬间起火，操作时严禁工具同时触碰正负极。
+    </div>
+    <div class="callout warn">
+      <b>放电与断电</b>
+      控制器主电容在断电后仍存有电荷，断开电池后等待 1 分钟以上或用万用表确认母线电压降至安全值再操作。
+    </div>
+    <ul>
+      <li><b>正负极勿接反</b>：控制器、DC转换器、仪表接反会瞬间烧毁。</li>
+      <li><b>先断电再插拔</b>：霍尔、转把等低压信号插头可带电但需防短路；主电源插头（粗红/粗黑）必须断电操作。</li>
+      <li><b>绝缘恢复</b>：破线检测后务必用热缩管或防水胶带恢复绝缘，电动车长期涉水环境，接头进水会导致漏电、误触发。</li>
+      <li><b>万用表是底线工具</b>：通电前用通断/电压档核对，不要凭线色直接盲接——不同厂家线色标准并不完全统一。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 2 电气系统总览 ================= -->
+<section id="s2">
+  <h2><span class="no">2</span>两轮电动车电气系统总览</h2>
+  <div class="card">
+    <p class="lead">一辆标准两轮电动车的电气系统，可以拆成<b>“动力主回路”</b>和<b>“控制/信号回路”</b>两大块，外加一条<b>“12V 辅助电源回路”</b>（由 DC-DC 转换器从动力电池降压而来）。理解这三条回路的边界，是读懂全车线路的关键。</p>
+    <h3>2.1 三大回路划分</h3>
+    <table>
+      <thead><tr><th>回路</th><th>电压</th><th>典型电流</th><th>包含部件</th></tr></thead>
+      <tbody>
+        <tr><td><b>动力主回路</b></td><td>48~72V</td><td>15~40A（大电流）</td><td>电池组 → 保险丝 → 电门锁（控制）→ 控制器 → 电机三相</td></tr>
+        <tr><td><b>控制/信号回路</b></td><td>5V / 信号级</td><td>mA 级</td><td>转把、刹车断电、霍尔、仪表信号、三速、防盗、巡航</td></tr>
+        <tr><td><b>12V 辅助回路</b></td><td>12V</td><td>1~5A</td><td>DC-DC 转换器 → 大灯/转向灯/尾灯/刹车灯/喇叭/仪表供电</td></tr>
+      </tbody>
+    </table>
+    <p class="lead"><b>共地（GND）：</b>三大回路的负极是<b>同一条地</b>——电池负极、控制器 B−、DC 转换器 GND、信号地、灯具负极全部等电位（0V）。图中黑色线即地线，灯具等负载端用三横线<b>接地符号</b>标注。识别方法见 <a href="#s5">第 5.3 节</a>。</p>
+    <h3>2.2 上电流程（理解故障的关键）</h3>
+    <ol>
+      <li>电池正极（粗红）→ 保险丝 → 进入控制器 <code>B+</code> 主电源端。</li>
+      <li>同时电池正极分出一根<b>细红</b>到<b>电门锁</b>进线。</li>
+      <li>钥匙拧开 → 电门锁导通 → 输出<b>电门锁线</b>（常为细橙/细红）回控制器 <code>锁线/电门</code> 端。</li>
+      <li>控制器检测到电门信号 → 内部电源芯片启动，输出 <b>+5V</b> 给转把、霍尔供电 → 整车进入待命。</li>
+      <li>拧转把 → 转把信号电压变化 → 控制器输出 PWM 驱动三相 → 电机转动。</li>
+    </ol>
+    <div class="callout info">
+      <b>为什么很多“全车没电”其实不是电池坏？</b>
+      只要电门锁这级导通链（电池→保险丝→电门锁→控制器锁线）任何一处断开，控制器就不会上电，整车表现为“无任何反应”。排查顺序永远是：电池电压 → 保险丝 → 电门锁通断。
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3 全车线路总览图 ================= -->
+<section id="s3">
+  <h2><span class="no">3</span>全车线路总览接线图</h2>
+  <p class="lead">下图为标准 48/60V 无刷电动车全车电气接线示意图，采用维修手册“逻辑接线图”画法：粗线代表大电流主回路，细线代表信号回路。不同厂家具体线色与接口顺序可能不同，<b>维修时以万用表实测为准</b>。</p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 1560 1280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="全车电气系统总览接线图">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#52606d"/>
+        </marker>
+        <!-- 标准接地符号（三横线） -->
+        <g id="ground">
+          <line x1="0" y1="0" x2="0" y2="12" stroke="#263238" stroke-width="1.8"/>
+          <line x1="-7" y1="12" x2="7" y2="12" stroke="#263238" stroke-width="2.2"/>
+          <line x1="-4.5" y1="16" x2="4.5" y2="16" stroke="#263238" stroke-width="1.8"/>
+          <line x1="-2" y1="20" x2="2" y2="20" stroke="#263238" stroke-width="1.4"/>
+        </g>
+      </defs>
+
+      <!-- 背景网格 -->
+      <rect x="0" y="0" width="1560" height="1280" fill="#fbfcfe"/>
+      <g stroke="#eef1f5" stroke-width="1">
+        <line x1="0" y1="300" x2="1560" y2="300"/><line x1="0" y1="560" x2="1560" y2="560"/><line x1="0" y1="880" x2="1560" y2="880"/><line x1="0" y1="1120" x2="1560" y2="1120"/>
+        <line x1="400" y1="0" x2="400" y2="1280"/><line x1="920" y1="0" x2="920" y2="1280"/><line x1="1360" y1="0" x2="1360" y2="1280"/>
+      </g>
+
+      <!-- ============ 连线层（底层） ============ -->
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+        <!-- 1. 电池正极 -> 保险丝（粗红） -->
+        <path d="M 270 1050 L 330 1050" stroke="#e53935" stroke-width="4"/>
+
+        <!-- 2. 保险丝 -> 控制器 B+（粗红） -->
+        <path d="M 460 1050 L 650 1050 L 650 840" stroke="#e53935" stroke-width="4"/>
+        <text x="555" y="1042" fill="#c62828" font-size="13" text-anchor="middle" font-weight="700">主+ 粗红</text>
+
+        <!-- 3. 电池负极 -> 控制器 B-（粗黑）= 全车共地母线 GND -->
+        <path d="M 270 1110 L 730 1110 L 730 840" stroke="#263238" stroke-width="4"/>
+        <text x="500" y="1102" fill="#37474f" font-size="13" text-anchor="middle" font-weight="700">主− 粗黑 = GND 全车共地</text>
+
+        <!-- 4. 主电源分叉 -> 电门锁进线（细红） -->
+        <path d="M 300 1050 L 300 925 L 330 925" stroke="#ef5350" stroke-width="2"/>
+        <text x="292" y="990" fill="#c62828" font-size="12">细红 锁前</text>
+
+        <!-- 5. 电门锁出线 -> 控制器电门锁线（橙） -->
+        <path d="M 490 925 L 490 600 L 560 600" stroke="#fb8c00" stroke-width="2.5"/>
+        <text x="482" y="760" fill="#e65100" font-size="12" font-weight="600">锁后线(橙)</text>
+
+        <!-- 6. 充电口 -> 电池（正/负） -->
+        <path d="M 40 1194 L 40 1150" stroke="#e53935" stroke-width="2.5"/>
+        <path d="M 40 1216 L 40 1150" stroke="#263238" stroke-width="2.5"/>
+        <text x="60" y="1204" fill="#37474f" font-size="12">直连电池</text>
+
+        <!-- 7. 电门锁出线分叉 -> DC 输入+（橙） -->
+        <path d="M 490 620 L 380 620 L 380 600" stroke="#fb8c00" stroke-width="2"/>
+        <text x="430" y="612" fill="#e65100" font-size="12">48V输入</text>
+
+        <!-- 8. DC 12V输出 -> 12V主线 -->
+        <path d="M 280 560 L 140 560 L 140 45 L 1020 45" stroke="#ff9800" stroke-width="2"/>
+        <text x="152" y="330" fill="#e65100" font-size="12" font-weight="600">12V+ 主线</text>
+
+        <!-- 9. 12V 分支：手把开关 / 闪光器 / 刹车灯 / 仪表 -->
+        <path d="M 840 45 L 840 60" stroke="#ff9800" stroke-width="1.8"/>
+        <path d="M 1020 45 L 1020 130" stroke="#ff9800" stroke-width="1.8"/>
+        <path d="M 140 440 L 460 440" stroke="#ff9800" stroke-width="1.8"/>
+        <path d="M 230 45 L 230 160" stroke="#ff9800" stroke-width="1.8"/>
+        <text x="300" y="432" fill="#e65100" font-size="11.5">12V（刹车灯常电）</text>
+
+        <!-- 10. 闪光器 -> 手把开关转向输入 -->
+        <path d="M 900 130 L 880 130" stroke="#f9a825" stroke-width="1.8"/>
+        <text x="890" y="122" fill="#b28704" font-size="11.5" text-anchor="middle">转向脉冲</text>
+
+        <!-- 11. 手把开关 -> 灯具（控制线） -->
+        <path d="M 430 260 L 430 300" stroke="#1e88e5" stroke-width="1.8"/>
+        <path d="M 490 260 L 490 300" stroke="#42a5f5" stroke-width="1.8"/>
+        <path d="M 550 260 L 580 260 L 580 440 L 550 440" stroke="#8d6e63" stroke-width="1.8"/>
+        <path d="M 640 260 L 640 300" stroke="#f9a825" stroke-width="1.8"/>
+        <path d="M 720 260 L 720 300" stroke="#7cb342" stroke-width="1.8"/>
+        <path d="M 780 260 L 780 440" stroke="#00897b" stroke-width="1.8"/>
+        <text x="422" y="282" fill="#1565c0" font-size="11" text-anchor="end">远光</text>
+        <text x="482" y="282" fill="#1565c0" font-size="11" text-anchor="end">近光</text>
+        <text x="588" y="350" fill="#6d4c41" font-size="11">尾灯</text>
+        <text x="632" y="282" fill="#b28704" font-size="11" text-anchor="end">转向左</text>
+        <text x="712" y="282" fill="#558b2f" font-size="11" text-anchor="end">转向右</text>
+        <text x="788" y="350" fill="#00695c" font-size="11">喇叭按钮</text>
+
+        <!-- 12. 三速开关 -> 控制器 -->
+        <path d="M 850 260 L 850 540" stroke="#5c6bc0" stroke-width="1.8"/>
+        <text x="858" y="400" fill="#3949ab" font-size="11">三速</text>
+
+        <!-- 13. 转把 -> 控制器 -->
+        <path d="M 1115 140 L 1115 545 L 920 545" stroke="#43a047" stroke-width="1.6"/>
+        <text x="1123" y="340" fill="#2e7d32" font-size="11">转把3线</text>
+
+        <!-- 14. 刹车 -> 控制器 -->
+        <path d="M 1305 140 L 1390 140 L 1390 810 L 920 810" stroke="#8e24aa" stroke-width="1.6"/>
+        <text x="1398" y="470" fill="#7b1fa2" font-size="11">刹车断电2线</text>
+
+        <!-- 15. 控制器 -> 电机 三相（粗黄/蓝/绿） -->
+        <path d="M 920 585 L 1120 585" stroke="#fdd835" stroke-width="4"/>
+        <path d="M 920 615 L 1120 615" stroke="#1e88e5" stroke-width="4"/>
+        <path d="M 920 645 L 1120 645" stroke="#43a047" stroke-width="4"/>
+        <text x="1020" y="577" fill="#c9a400" font-size="12.5" font-weight="700">U 粗黄</text>
+        <text x="1020" y="607" fill="#1565c0" font-size="12.5" font-weight="700">V 粗蓝</text>
+        <text x="1020" y="637" fill="#2e7d32" font-size="12.5" font-weight="700">W 粗绿</text>
+
+        <!-- 16. 控制器 -> 电机霍尔（5线） -->
+        <path d="M 920 705 L 1120 705" stroke="#d81b60" stroke-width="1.6"/>
+        <text x="1020" y="697" fill="#c2185b" font-size="12">霍尔5线</text>
+
+        <!-- 17. 控制器 -> 仪表（速度/电量信号） -->
+        <path d="M 590 540 L 270 540 L 270 160" stroke="#5c6bc0" stroke-width="1.6"/>
+        <text x="278" y="350" fill="#3949ab" font-size="11">速度/电量信号</text>
+
+      </g>
+
+      <!-- ============ 模块层（顶层） ============ -->
+      <g font-size="14">
+
+        <!-- 仪表 -->
+        <g transform="translate(160,60)">
+          <rect x="0" y="0" width="180" height="100" rx="10" fill="#fff" stroke="#5c6bc0" stroke-width="2"/>
+          <text x="90" y="26" fill="#3949ab" font-size="14" font-weight="700" text-anchor="middle">仪表盘</text>
+          <text x="90" y="48" fill="#546e7a" font-size="12" text-anchor="middle">12V + 速度脉冲</text>
+          <text x="90" y="68" fill="#546e7a" font-size="12" text-anchor="middle">电量 / 转向指示(并联) / 大灯</text>
+          <text x="90" y="88" fill="#546e7a" font-size="11.5" text-anchor="middle">电压采样</text>
+          <circle cx="70" cy="100" r="4" fill="#ff9800"/>
+          <circle cx="110" cy="100" r="4" fill="#5c6bc0"/>
+          <text x="70" y="112" fill="#e65100" font-size="10.5" text-anchor="middle">12V</text>
+          <text x="110" y="112" fill="#3949ab" font-size="10.5" text-anchor="middle">速度</text>
+        </g>
+
+        <!-- 手把组合开关 -->
+        <g transform="translate(360,60)">
+          <rect x="0" y="0" width="520" height="200" rx="12" fill="#fff" stroke="#37474f" stroke-width="2.5"/>
+          <rect x="0" y="0" width="520" height="34" rx="12" fill="#37474f"/>
+          <rect x="0" y="17" width="520" height="17" fill="#37474f"/>
+          <text x="260" y="24" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">手把组合开关</text>
+          <g font-size="12" fill="#546e7a">
+            <text x="24" y="62">灯光总开关 → 大灯 / 尾灯</text>
+            <text x="24" y="82">远近光切换</text>
+            <text x="24" y="102">转向开关 左 / 右</text>
+            <text x="24" y="122">双闪开关（左右同时闪）</text>
+            <text x="24" y="142">喇叭按钮（另一端接地）</text>
+            <text x="24" y="162">三速开关 低 / 中 / 高</text>
+          </g>
+          <circle cx="480" cy="0" r="4" fill="#ff9800"/>
+          <text x="480" y="54" fill="#e65100" font-size="11" text-anchor="middle">12V+</text>
+          <circle cx="520" cy="70" r="4" fill="#f9a825"/>
+          <text x="506" y="74" fill="#b28704" font-size="10.5" text-anchor="end">转向脉冲</text>
+          <circle cx="70" cy="200" r="4" fill="#1e88e5"/>
+          <circle cx="130" cy="200" r="4" fill="#42a5f5"/>
+          <circle cx="190" cy="200" r="4" fill="#8d6e63"/>
+          <circle cx="280" cy="200" r="4" fill="#f9a825"/>
+          <circle cx="360" cy="200" r="4" fill="#7cb342"/>
+          <circle cx="420" cy="200" r="4" fill="#00897b"/>
+          <circle cx="490" cy="200" r="4" fill="#5c6bc0"/>
+          <text x="70" y="190" fill="#1565c0" font-size="10.5" text-anchor="middle">远光</text>
+          <text x="130" y="190" fill="#1565c0" font-size="10.5" text-anchor="middle">近光</text>
+          <text x="190" y="190" fill="#6d4c41" font-size="10.5" text-anchor="middle">尾灯</text>
+          <text x="280" y="190" fill="#b28704" font-size="10.5" text-anchor="middle">转左</text>
+          <text x="360" y="190" fill="#558b2f" font-size="10.5" text-anchor="middle">转右</text>
+          <text x="420" y="190" fill="#00695c" font-size="10.5" text-anchor="middle">喇叭</text>
+          <text x="490" y="190" fill="#3949ab" font-size="10.5" text-anchor="middle">三速</text>
+          <use href="#ground" x="497" y="172"/>
+          <text x="497" y="160" fill="#546e7a" font-size="10.5" text-anchor="middle">内部开关对地</text>
+        </g>
+
+        <!-- 闪光器 -->
+        <g transform="translate(900,100)">
+          <rect x="0" y="0" width="120" height="60" rx="10" fill="#fff" stroke="#f9a825" stroke-width="2"/>
+          <text x="60" y="26" fill="#b28704" font-size="13" font-weight="700" text-anchor="middle">闪光器</text>
+          <text x="60" y="46" fill="#8d6e63" font-size="11" text-anchor="middle">间歇通断</text>
+          <circle cx="0" cy="30" r="4" fill="#f9a825"/>
+          <circle cx="120" cy="30" r="4" fill="#ff9800"/>
+          <use href="#ground" x="60" y="64"/>
+        </g>
+
+        <!-- 转把 -->
+        <g transform="translate(1040,60)">
+          <rect x="0" y="0" width="150" height="80" rx="10" fill="#fff" stroke="#43a047" stroke-width="2"/>
+          <text x="75" y="26" fill="#2e7d32" font-size="14" font-weight="700" text-anchor="middle">转把（霍尔）</text>
+          <text x="75" y="48" fill="#546e7a" font-size="12" text-anchor="middle">红+5V 黑GND</text>
+          <text x="75" y="68" fill="#546e7a" font-size="12" text-anchor="middle">绿信号 0.8~4.2V</text>
+          <circle cx="75" cy="80" r="4" fill="#43a047"/>
+        </g>
+
+        <!-- 刹车 -->
+        <g transform="translate(1230,60)">
+          <rect x="0" y="0" width="150" height="80" rx="10" fill="#fff" stroke="#8e24aa" stroke-width="2"/>
+          <text x="75" y="26" fill="#7b1fa2" font-size="14" font-weight="700" text-anchor="middle">刹车断电</text>
+          <text x="75" y="48" fill="#546e7a" font-size="12" text-anchor="middle">微动/霍尔 2线</text>
+          <text x="75" y="68" fill="#546e7a" font-size="12" text-anchor="middle">低刹(对地) 常见</text>
+          <circle cx="75" cy="80" r="4" fill="#8e24aa"/>
+        </g>
+
+        <!-- 大灯 -->
+        <g transform="translate(360,300)">
+          <rect x="0" y="0" width="200" height="110" rx="10" fill="#fff" stroke="#1e88e5" stroke-width="2"/>
+          <text x="100" y="26" fill="#1565c0" font-size="14" font-weight="700" text-anchor="middle">大灯</text>
+          <text x="100" y="50" fill="#546e7a" font-size="12" text-anchor="middle">远光 / 近光</text>
+          <text x="100" y="74" fill="#546e7a" font-size="12" text-anchor="middle">12V · 各约 21W</text>
+          <circle cx="70" cy="0" r="4" fill="#1e88e5"/>
+          <circle cx="130" cy="0" r="4" fill="#42a5f5"/>
+          <text x="70" y="-8" fill="#1565c0" font-size="10.5" text-anchor="middle">远光</text>
+          <text x="130" y="-8" fill="#1565c0" font-size="10.5" text-anchor="middle">近光</text>
+          <use href="#ground" x="100" y="112"/>
+        </g>
+
+        <!-- 左转向灯 -->
+        <g transform="translate(600,300)">
+          <rect x="0" y="0" width="80" height="60" rx="10" fill="#fff" stroke="#f9a825" stroke-width="2"/>
+          <text x="40" y="26" fill="#b28704" font-size="13" font-weight="700" text-anchor="middle">左转向</text>
+          <text x="40" y="46" fill="#8d6e63" font-size="11" text-anchor="middle">12V</text>
+          <circle cx="40" cy="0" r="4" fill="#f9a825"/>
+          <use href="#ground" x="40" y="64"/>
+        </g>
+
+        <!-- 右转向灯 -->
+        <g transform="translate(680,300)">
+          <rect x="0" y="0" width="80" height="60" rx="10" fill="#fff" stroke="#7cb342" stroke-width="2"/>
+          <text x="40" y="26" fill="#558b2f" font-size="13" font-weight="700" text-anchor="middle">右转向</text>
+          <text x="40" y="46" fill="#8d6e63" font-size="11" text-anchor="middle">12V</text>
+          <circle cx="40" cy="0" r="4" fill="#7cb342"/>
+          <use href="#ground" x="40" y="64"/>
+        </g>
+
+        <!-- 尾灯/刹车灯 -->
+        <g transform="translate(360,440)">
+          <rect x="0" y="0" width="200" height="70" rx="10" fill="#fff" stroke="#8d6e63" stroke-width="2"/>
+          <text x="100" y="26" fill="#6d4c41" font-size="14" font-weight="700" text-anchor="middle">尾灯 / 刹车灯</text>
+          <text x="100" y="48" fill="#546e7a" font-size="12" text-anchor="middle">尾灯随大灯 · 刹车灯随刹车</text>
+          <circle cx="190" cy="0" r="4" fill="#8d6e63"/>
+          <circle cx="100" cy="0" r="4" fill="#ff9800"/>
+          <text x="190" y="-8" fill="#6d4c41" font-size="10.5" text-anchor="middle">尾灯</text>
+          <text x="100" y="-8" fill="#e65100" font-size="10.5" text-anchor="middle">刹车灯</text>
+          <use href="#ground" x="100" y="74"/>
+        </g>
+
+        <!-- 喇叭 -->
+        <g transform="translate(700,440)">
+          <rect x="0" y="0" width="130" height="60" rx="10" fill="#fff" stroke="#00897b" stroke-width="2"/>
+          <text x="65" y="26" fill="#00695c" font-size="14" font-weight="700" text-anchor="middle">喇叭</text>
+          <text x="65" y="46" fill="#546e7a" font-size="11" text-anchor="middle">按钮端 / 12V端接地</text>
+          <circle cx="80" cy="0" r="4" fill="#00897b"/>
+          <use href="#ground" x="65" y="64"/>
+        </g>
+
+        <!-- 提示：灯光/喇叭为独立 12V 回路 -->
+        <g transform="translate(870,380)">
+          <rect x="0" y="0" width="240" height="62" rx="8" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+          <text x="120" y="26" fill="#2e7d32" font-size="12.5" font-weight="700" text-anchor="middle">转向灯 / 喇叭 / 灯光</text>
+          <text x="120" y="48" fill="#558b2f" font-size="12" text-anchor="middle">12V 独立回路 · 不经控制器</text>
+        </g>
+
+        <!-- DC转换器 -->
+        <g transform="translate(180,560)">
+          <rect x="0" y="0" width="200" height="110" rx="10" fill="#fff" stroke="#ff9800" stroke-width="2"/>
+          <rect x="0" y="0" width="200" height="32" rx="10" fill="#ff9800"/>
+          <rect x="0" y="16" width="200" height="16" fill="#ff9800"/>
+          <text x="100" y="23" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">DC-DC 转换器</text>
+          <text x="100" y="56" fill="#e65100" font-size="13" text-anchor="middle">48V → 12V</text>
+          <text x="100" y="78" fill="#546e7a" font-size="12" text-anchor="middle">给灯光/喇叭/仪表</text>
+          <text x="100" y="102" fill="#90a4ae" font-size="11">输入− / 输出GND 接主地（共地）</text>
+          <circle cx="100" cy="0" r="4" fill="#ff9800"/>
+          <circle cx="200" cy="40" r="4" fill="#fb8c00"/>
+          <circle cx="200" cy="65" r="4" fill="#263238"/>
+        </g>
+
+        <!-- 控制器（核心） -->
+        <g transform="translate(560,540)">
+          <rect x="0" y="0" width="360" height="300" rx="14" fill="#eef4fc" stroke="#1a6fd0" stroke-width="3"/>
+          <rect x="0" y="0" width="360" height="38" rx="14" fill="#1a6fd0"/>
+          <rect x="0" y="19" width="360" height="19" fill="#1a6fd0"/>
+          <text x="180" y="27" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">控制器（核心）</text>
+
+          <!-- 顶部端口：仪表(30) 三速(290) -->
+          <circle cx="30" cy="0" r="4" fill="#5c6bc0"/>
+          <circle cx="290" cy="0" r="4" fill="#5c6bc0"/>
+          <text x="30" y="54" fill="#3949ab" font-size="11" text-anchor="middle">仪表</text>
+          <text x="290" y="54" fill="#3949ab" font-size="11" text-anchor="middle">三速</text>
+
+          <!-- 左侧端口：电门锁线(0,60) -->
+          <circle cx="0" cy="60" r="4" fill="#fb8c00"/>
+          <text x="14" y="64" fill="#e65100" font-size="11.5">电门锁线</text>
+
+          <!-- 右侧端口：转把/U/V/W/霍尔/刹车 -->
+          <circle cx="360" cy="5" r="4" fill="#43a047"/>
+          <circle cx="360" cy="45" r="4" fill="#fdd835"/>
+          <circle cx="360" cy="75" r="4" fill="#1e88e5"/>
+          <circle cx="360" cy="105" r="4" fill="#43a047"/>
+          <circle cx="360" cy="165" r="4" fill="#d81b60"/>
+          <circle cx="360" cy="270" r="4" fill="#8e24aa"/>
+          <text x="346" y="9" fill="#2e7d32" font-size="11" text-anchor="end">转把</text>
+          <text x="346" y="49" fill="#c9a400" font-size="11" text-anchor="end">U相</text>
+          <text x="346" y="79" fill="#1565c0" font-size="11" text-anchor="end">V相</text>
+          <text x="346" y="109" fill="#2e7d32" font-size="11" text-anchor="end">W相</text>
+          <text x="346" y="169" fill="#c2185b" font-size="11" text-anchor="end">霍尔</text>
+          <text x="346" y="274" fill="#7b1fa2" font-size="11" text-anchor="end">刹车</text>
+
+          <!-- 底部端口：B+(90,300) B−(170,300) -->
+          <circle cx="90" cy="300" r="4" fill="#e53935"/>
+          <circle cx="170" cy="300" r="4" fill="#263238"/>
+          <text x="90" y="282" fill="#c62828" font-size="11.5" text-anchor="middle" font-weight="700">B+</text>
+          <text x="170" y="282" fill="#37474f" font-size="11.5" text-anchor="middle" font-weight="700">B−</text>
+
+          <text x="180" y="140" fill="#1a6fd0" font-size="12.5" text-anchor="middle">内置 MOSFET 桥 + MCU</text>
+          <text x="180" y="160" fill="#546e7a" font-size="12" text-anchor="middle">PWM 驱动三相无刷电机</text>
+          <text x="180" y="220" fill="#546e7a" font-size="11.5" text-anchor="middle">限速 / 巡航 / 学习 / 防盗</text>
+        </g>
+
+        <!-- 电门锁 -->
+        <g transform="translate(330,880)">
+          <rect x="0" y="0" width="160" height="90" rx="10" fill="#fff" stroke="#fb8c00" stroke-width="2"/>
+          <text x="80" y="26" fill="#e65100" font-size="14" font-weight="700" text-anchor="middle">电门锁（钥匙）</text>
+          <text x="80" y="48" fill="#546e7a" font-size="12" text-anchor="middle">进:细红 锁前</text>
+          <text x="80" y="68" fill="#546e7a" font-size="12" text-anchor="middle">出:细橙 锁后</text>
+          <circle cx="0" cy="45" r="4" fill="#e53935"/>
+          <circle cx="160" cy="45" r="4" fill="#fb8c00"/>
+        </g>
+
+        <!-- 保险丝 -->
+        <g transform="translate(330,1020)">
+          <rect x="0" y="0" width="130" height="60" rx="8" fill="#fff" stroke="#f57c00" stroke-width="2"/>
+          <text x="65" y="25" fill="#e65100" font-size="14" font-weight="700" text-anchor="middle">保险丝</text>
+          <text x="65" y="46" fill="#ef6c00" font-size="12" text-anchor="middle">30~40A 管式</text>
+          <circle cx="0" cy="30" r="4" fill="#e53935"/>
+          <circle cx="130" cy="30" r="4" fill="#e53935"/>
+        </g>
+
+        <!-- 电池组 -->
+        <g transform="translate(40,1020)">
+          <rect x="0" y="0" width="230" height="130" rx="10" fill="#fff" stroke="#e53935" stroke-width="2"/>
+          <rect x="0" y="0" width="230" height="34" rx="10" fill="#e53935"/>
+          <rect x="0" y="16" width="230" height="18" fill="#e53935"/>
+          <text x="115" y="24" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">电池组</text>
+          <text x="115" y="62" fill="#37474f" font-size="13" text-anchor="middle">48/60/72V 锂电/铅酸</text>
+          <text x="115" y="84" fill="#c62828" font-size="12" text-anchor="middle">容量 12~32Ah</text>
+          <circle cx="230" cy="30" r="5" fill="#e53935"/>
+          <circle cx="230" cy="90" r="5" fill="#263238"/>
+          <text x="240" y="34" fill="#c62828" font-size="12">+</text>
+          <text x="240" y="94" fill="#37474f" font-size="12">−</text>
+        </g>
+
+        <!-- 充电口 -->
+        <g transform="translate(40,1170)">
+          <rect x="0" y="0" width="160" height="70" rx="10" fill="#fff" stroke="#78909c" stroke-width="2"/>
+          <text x="80" y="26" fill="#37474f" font-size="14" font-weight="700" text-anchor="middle">充电接口</text>
+          <text x="80" y="50" fill="#546e7a" font-size="12" text-anchor="middle">防反接 直连电池</text>
+          <circle cx="0" cy="24" r="4" fill="#e53935"/>
+          <circle cx="0" cy="46" r="4" fill="#263238"/>
+        </g>
+
+        <!-- 电机 -->
+        <g transform="translate(1120,580)">
+          <rect x="0" y="0" width="240" height="200" rx="12" fill="#fff" stroke="#2e7d32" stroke-width="2.5"/>
+          <rect x="0" y="0" width="240" height="34" rx="12" fill="#2e7d32"/>
+          <rect x="0" y="17" width="240" height="17" fill="#2e7d32"/>
+          <text x="120" y="25" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">无刷电机</text>
+          <text x="120" y="60" fill="#37474f" font-size="13" text-anchor="middle">三相永磁无刷</text>
+          <text x="120" y="82" fill="#546e7a" font-size="12" text-anchor="middle">U黄 / V蓝 / W绿</text>
+          <text x="120" y="104" fill="#c2185b" font-size="12" text-anchor="middle">霍尔传感器 ×3（5线）</text>
+          <text x="120" y="126" fill="#546e7a" font-size="12" text-anchor="middle">电角度 60°/120°</text>
+          <circle cx="0" cy="5" r="4" fill="#fdd835"/><circle cx="0" cy="35" r="4" fill="#1e88e5"/><circle cx="0" cy="65" r="4" fill="#43a047"/>
+          <circle cx="0" cy="125" r="4" fill="#d81b60"/>
+        </g>
+
+        <!-- 图例 -->
+        <g transform="translate(1180,900)">
+          <rect x="0" y="0" width="330" height="260" rx="10" fill="#fff" stroke="#cfd8dc" stroke-width="1.5"/>
+          <text x="16" y="28" fill="#37474f" font-size="14" font-weight="700">图例</text>
+          <line x1="16" y1="46" x2="60" y2="46" stroke="#e53935" stroke-width="4"/><text x="70" y="51" fill="#37474f" font-size="12">主电源 + (48~72V 粗红)</text>
+          <line x1="16" y1="68" x2="60" y2="68" stroke="#263238" stroke-width="4"/><text x="70" y="73" fill="#37474f" font-size="12">主电源 − (粗黑)</text>
+          <line x1="16" y1="90" x2="60" y2="90" stroke="#fb8c00" stroke-width="2.5"/><text x="70" y="95" fill="#37474f" font-size="12">电门锁后 / DC输入 (橙)</text>
+          <line x1="16" y1="112" x2="60" y2="112" stroke="#ff9800" stroke-width="2"/><text x="70" y="117" fill="#37474f" font-size="12">12V 主线 (橙)</text>
+          <line x1="16" y1="134" x2="60" y2="134" stroke="#f9a825" stroke-width="1.8"/><text x="70" y="139" fill="#37474f" font-size="12">转向控制 (黄/绿)</text>
+          <line x1="16" y1="156" x2="60" y2="156" stroke="#1e88e5" stroke-width="1.8"/><text x="70" y="161" fill="#37474f" font-size="12">灯光控制 (蓝) · 喇叭 (青)</text>
+          <line x1="16" y1="178" x2="60" y2="178" stroke="#43a047" stroke-width="1.6"/><text x="70" y="183" fill="#37474f" font-size="12">信号线 (转把/霍尔/仪表/三速)</text>
+          <line x1="16" y1="200" x2="60" y2="200" stroke="#fdd835" stroke-width="4"/><text x="70" y="205" fill="#37474f" font-size="12">电机三相 (黄/蓝/绿)</text>
+          <g>
+            <line x1="34" y1="212" x2="34" y2="222" stroke="#263238" stroke-width="2"/>
+            <line x1="27" y1="222" x2="41" y2="222" stroke="#263238" stroke-width="2.2"/>
+            <line x1="30" y1="226" x2="38" y2="226" stroke="#263238" stroke-width="1.8"/>
+            <line x1="32" y1="230" x2="36" y2="230" stroke="#263238" stroke-width="1.4"/>
+          </g>
+          <text x="48" y="232" fill="#37474f" font-size="12">接地符号 = 接共地 GND（与电池负极等电位）</text>
+          <text x="16" y="252" fill="#90a4ae" font-size="11">注：线色因厂家而异，以实测为准</text>
+        </g>
+
+      </g>
+    </svg>
+    <figcaption>图 1 · 两轮电动车全车电气系统总览接线图（动力主回路 + 12V 辅助回路 + 手把控制回路 + 信号回路）</figcaption>
+  </figure>
+
+  <div class="callout info">
+    <b>看图要点（大白话版）</b>
+    <ul>
+      <li><b>大电流只走一条粗线</b>：电池 → 保险丝 → 控制器 → 电机。这条线最粗、电流最大，其他线路都是小电流。</li>
+      <li><b>钥匙只管“开机”</b>：插钥匙一拧，控制器才通电工作，它不是直接开关大电流。</li>
+      <li><b>灯光、喇叭、仪表用的是另一路 12V</b>：DC 转换器把电池高压降到 12V 单独供给，跟动力电互不干扰——所以“车能跑但灯不亮”时，多半就是它出问题了。</li>
+      <li><b>转把、刹车、霍尔是“发指令”的小信号</b>：只有几伏，直接进控制器，告诉它“走多快、要不要停”。</li>
+      <li><b>手把上的开关全挤在一块</b>：灯光总开关、远近光、转向、双闪、喇叭、三速都集成在“手把组合开关”里。</li>
+      <li><b>转向灯会闪，靠的是闪光器</b>：它让灯一亮一灭；双闪就是把左右转向灯一起闪。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 4 线路功能点详解 ================= -->
+<section id="s4">
+  <h2><span class="no">4</span>核心部件线路功能点详解</h2>
+
+  <!-- 4.1 电池组 -->
+  <div class="card">
+    <h3>4.1 电池组与充电回路</h3>
+    <table>
+      <thead><tr><th>端子</th><th>线色(常见)</th><th>功能</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>主正极 <code>+</code></td><td><span class="wire" style="background:#e53935"></span>粗红</td><td>动力主供电</td><td>经保险丝进入控制器 B+，持续大电流</td></tr>
+        <tr><td>主负极 <code>−</code></td><td><span class="wire" style="background:#263238"></span>粗黑</td><td>主回路地</td><td>全车共地，与控制器 B− 相连</td></tr>
+        <tr><td>充电口</td><td>红/黑</td><td>充电输入</td><td>多数车充放电同口，直连电池；充电时须断开负载（或充电器自动识别）</td></tr>
+        <tr><td>BMS 通信（锂电）</td><td>白/黄 等</td><td>电量/保护通信</td><td>锂电保护板与仪表/控制器通信，部分车型为 RS485 或一线通</td></tr>
+      </tbody>
+    </table>
+    <p><b>功能点要点：</b>锂电包内部有 BMS（电池管理系统），负责过充/过放/过流/短路/温度保护。整车“突然断电”除保险丝外，也可能是 BMS 触发保护——需断电重启或充电激活。</p>
+  </div>
+
+  <!-- 4.2 控制器 -->
+  <div class="card">
+    <h3>4.2 控制器（整车电气核心）—— 接口引脚详解</h3>
+    <p>控制器是无刷电机的“大脑”，内部为 MOSFET 三相桥 + MCU。下面把它的每一个接口按<b>功能组</b>拆开讲。</p>
+    <div class="callout info">
+      <b>接口归属判断：哪些线进控制器，哪些不进？</b>
+      <p>进控制器的只有 4 类：</p>
+      <ul>
+        <li><strong>电源</strong>：B+/B−、电门锁、DC 输入</li>
+        <li><strong>电机驱动</strong>：三相、霍尔</li>
+        <li><strong>操控信号</strong>：转把、刹车断电、三速</li>
+        <li><strong>辅助</strong>：仪表速度信号、防盗、巡航、学习</li>
+      </ul>
+      <p><strong>不进控制器</strong>：转向灯、喇叭、大灯/尾灯是独立的 12V 回路，由手把组合开关直接控制——修这些灯时不要去控制器上找接口。</p>
+      <p><strong>唯一间接关联</strong>：转向指示信号并联给仪表显示；防盗器报警时可驱动转向灯闪。</p>
+    </div>
+
+    <figure class="fig">
+      <svg viewBox="0 0 1560 1240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="控制器接口引脚详解图" style="min-width:1250px">
+        <rect x="0" y="0" width="1560" height="1240" fill="#fbfcfe"/>
+        <!-- 控制器本体 -->
+        <g transform="translate(80,120)">
+          <rect x="0" y="0" width="420" height="720" rx="16" fill="#eef4fc" stroke="#1a6fd0" stroke-width="3"/>
+          <rect x="0" y="0" width="420" height="52" rx="16" fill="#1a6fd0"/>
+          <rect x="0" y="26" width="420" height="26" fill="#1a6fd0"/>
+          <text x="210" y="36" fill="#fff" font-size="23" font-weight="700" text-anchor="middle">控制器接口总览</text>
+          <text x="210" y="108" fill="#1a6fd0" font-size="17" text-anchor="middle" font-weight="600">（各接口位置示意 · 引脚功能见右栏）</text>
+
+          <!-- 顶部端口：电源 / 电门锁 -->
+          <circle cx="90" cy="132" r="6" fill="#e53935"/>
+          <circle cx="210" cy="132" r="6" fill="#263238"/>
+          <circle cx="330" cy="132" r="6" fill="#fb8c00"/>
+          <text x="90" y="170" fill="#c62828" font-size="15" font-weight="700" text-anchor="middle">主电源+ B+</text>
+          <text x="210" y="170" fill="#37474f" font-size="15" font-weight="700" text-anchor="middle">主电源− B−</text>
+          <text x="330" y="170" fill="#e65100" font-size="15" text-anchor="middle">电门锁线</text>
+
+          <!-- 左侧端口：电机三相 -->
+          <circle cx="0" cy="250" r="6" fill="#fdd835"/>
+          <circle cx="0" cy="300" r="6" fill="#1e88e5"/>
+          <circle cx="0" cy="350" r="6" fill="#43a047"/>
+          <text x="16" y="254" fill="#c9a400" font-size="15" font-weight="700">电机 U 相（粗黄）</text>
+          <text x="16" y="304" fill="#1565c0" font-size="15" font-weight="700">电机 V 相（粗蓝）</text>
+          <text x="16" y="354" fill="#2e7d32" font-size="15" font-weight="700">电机 W 相（粗绿）</text>
+
+          <!-- 右侧端口：霍尔 / 转把 / 刹车 -->
+          <circle cx="420" cy="210" r="6" fill="#d81b60"/>
+          <text x="404" y="214" fill="#c2185b" font-size="15" font-weight="700" text-anchor="end">霍尔接口（5线）</text>
+          <text x="404" y="240" fill="#546e7a" font-size="13" text-anchor="end">+5V / GND / A·B·C</text>
+
+          <circle cx="420" cy="360" r="6" fill="#2e7d32"/>
+          <text x="404" y="364" fill="#2e7d32" font-size="15" font-weight="700" text-anchor="end">转把接口（3线）</text>
+          <text x="404" y="390" fill="#546e7a" font-size="13" text-anchor="end">+5V / GND / 信号</text>
+
+          <circle cx="420" cy="510" r="6" fill="#8e24aa"/>
+          <text x="404" y="514" fill="#7b1fa2" font-size="15" font-weight="700" text-anchor="end">刹车断电（2线）</text>
+          <text x="404" y="540" fill="#546e7a" font-size="13" text-anchor="end">低刹 / 高刹信号</text>
+
+          <!-- 底部端口：辅助功能 -->
+          <circle cx="130" cy="720" r="6" fill="#5c6bc0"/>
+          <circle cx="290" cy="720" r="6" fill="#5c6bc0"/>
+          <text x="130" y="712" fill="#3949ab" font-size="13" text-anchor="middle">三速</text>
+          <text x="290" y="712" fill="#3949ab" font-size="13" text-anchor="middle">限速/巡航/学习/防盗</text>
+        </g>
+
+        <!-- 右侧详细注释 -->
+        <g transform="translate(560,120)" font-size="16">
+          <text x="0" y="0" fill="#1a6fd0" font-size="20" font-weight="700">各接口功能点说明</text>
+
+          <!-- 主电源 -->
+          <rect x="0" y="24" width="760" height="100" rx="8" fill="#fff5f5" stroke="#ffcdd2"/>
+          <text x="16" y="56" fill="#c62828" font-weight="700">主电源 B+/B−</text>
+          <text x="16" y="86" fill="#5f4339">电池主回路直连。B+ 常带保险丝；B− 为全车共地。断电后主电容需放电再操作。</text>
+          <text x="16" y="112" fill="#5f4339">万用表直流电压档：红表笔 B+、黑表笔 B−，应测到电池实际电压。</text>
+
+          <rect x="0" y="144" width="760" height="76" rx="8" fill="#fff8f0" stroke="#ffd591"/>
+          <text x="16" y="176" fill="#e65100" font-weight="700">电门锁线</text>
+          <text x="16" y="206" fill="#6d4c41">来自电门锁输出。拧钥匙后有 48V+ 电压，控制器 MCU 才上电。无此电压=整车无反应。</text>
+
+          <rect x="0" y="240" width="760" height="100" rx="8" fill="#fffde7" stroke="#fff59d"/>
+          <text x="16" y="272" fill="#c9a400" font-weight="700">电机三相 U/V/W</text>
+          <text x="16" y="302" fill="#6d5b00">控制器输出 PWM 到三相绕组，驱动电机换相。相序错会导致反转或“咔咔”抖动。</text>
+          <text x="16" y="328" fill="#6d5b00">判断：三相互换任意两根可改变转向；三根全换等于换向。</text>
+
+          <rect x="0" y="360" width="760" height="124" rx="8" fill="#fce4ec" stroke="#f8bbd0"/>
+          <text x="16" y="392" fill="#c2185b" font-weight="700">霍尔传感器接口（5线）</text>
+          <text x="16" y="422" fill="#6d3a4f">霍尔检测转子位置，反馈给 MCU 决定换相时序。+5V/GND 由控制器提供。</text>
+          <text x="16" y="448" fill="#6d3a4f">A/B/C 三路信号在电机旋转时输出 0~5V 方波（占空比约 50%）。</text>
+          <text x="16" y="474" fill="#6d3a4f">任一霍尔失效→电机抖动、异响、无法平稳起步。可用磁铁+万用表测信号翻转。</text>
+
+          <rect x="0" y="504" width="760" height="100" rx="8" fill="#e8f5e9" stroke="#c8e6c9"/>
+          <text x="16" y="536" fill="#2e7d32" font-weight="700">转把接口（3线）</text>
+          <text x="16" y="566" fill="#35572a">+5V 供电，绿线输出 0.8~4.2V 模拟量，随转动角度升高，MCU 据此调速。</text>
+          <text x="16" y="592" fill="#35572a">转把信号线对地短路→可能“飞车”风险；对 +5V 短路→无法调速，一开就满速。</text>
+
+          <rect x="0" y="624" width="760" height="76" rx="8" fill="#f3e5f5" stroke="#e1bee7"/>
+          <text x="16" y="656" fill="#7b1fa2" font-weight="700">刹车断电接口</text>
+          <text x="16" y="686" fill="#57405f">捏刹把时给控制器一个信号，立即切断电机驱动（安全保护）。分高刹/低刹。</text>
+
+          <rect x="0" y="720" width="760" height="148" rx="8" fill="#eceff1" stroke="#cfd8dc"/>
+          <text x="16" y="752" fill="#37474f" font-weight="700">辅助功能接口</text>
+          <text x="16" y="782" fill="#546e7a">· 三速线：高中低三档，通过不同线对地短接选择</text>
+          <text x="16" y="808" fill="#546e7a">· 限速线：对插后限速约 25km/h</text>
+          <text x="16" y="834" fill="#546e7a">· 巡航/倒车线 · 防盗报警接口（锁电机、震动信号）</text>
+          <text x="16" y="860" fill="#546e7a">· 学习线：两根白线对插，自动匹配电机相位与转向（自学习）</text>
+
+          <!-- 12V 灯光/喇叭独立回路说明 -->
+          <rect x="0" y="888" width="760" height="196" rx="8" fill="#e8f5e9" stroke="#a5d6a7"/>
+          <text x="16" y="920" fill="#2e7d32" font-weight="700">转向灯 / 喇叭 / 灯光 —— 12V 独立回路（不经控制器）</text>
+          <text x="16" y="950" fill="#35572a">· 转向灯、喇叭、大灯/尾灯全部由 DC-DC 转换器的 12V 供电</text>
+          <text x="16" y="976" fill="#35572a">· 控制由手把组合开关完成（灯光总开关 / 远近光 / 转向 / 双闪 / 喇叭按钮）</text>
+          <text x="16" y="1002" fill="#35572a">· 仅“转向指示”信号从转向灯线路并联到仪表显示</text>
+          <text x="16" y="1028" fill="#35572a">· 防盗器报警时可驱动转向灯闪烁（可选）</text>
+          <text x="16" y="1054" fill="#35572a">· 控制器不参与这些回路，维修时无需考虑控制器接口</text>
+        </g>
+      </svg>
+      <figcaption>图 2 · 控制器接口引脚功能点详解</figcaption>
+    </figure>
+  </div>
+
+  <!-- 4.3 电机与霍尔 -->
+  <div class="card">
+    <h3>4.3 无刷电机与霍尔传感器</h3>
+    <p>无刷电机没有碳刷，靠控制器依据<b>霍尔位置信号</b>来切换三相电流方向实现旋转。</p>
+    <table>
+      <thead><tr><th>线路</th><th>线色</th><th>线径</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>相线 U</td><td>粗黄</td><td>粗（2.5~4mm²）</td><td>绕组 A</td></tr>
+        <tr><td>相线 V</td><td>粗蓝</td><td>粗</td><td>绕组 B</td></tr>
+        <tr><td>相线 W</td><td>粗绿</td><td>粗</td><td>绕组 C</td></tr>
+        <tr><td>霍尔 +5V</td><td>细红</td><td>细</td><td>霍尔供电</td></tr>
+        <tr><td>霍尔 GND</td><td>细黑</td><td>细</td><td>霍尔地</td></tr>
+        <tr><td>霍尔 A/B/C</td><td>细黄/蓝/绿</td><td>细</td><td>转子位置反馈</td></tr>
+      </tbody>
+    </table>
+
+    <figure class="fig">
+      <svg viewBox="0 0 1560 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="霍尔与转把信号波形示意图">
+        <rect x="0" y="0" width="1560" height="430" fill="#fbfcfe"/>
+        <text x="40" y="40" fill="#1a6fd0" font-size="18" font-weight="700">霍尔信号（方波）与转把信号（模拟量）波形示意</text>
+
+        <!-- 霍尔方波 A -->
+        <g>
+          <text x="40" y="90" fill="#c9a400" font-size="14" font-weight="700">霍尔 A</text>
+          <line x1="130" y1="80" x2="1450" y2="80" stroke="#cfd8dc" stroke-width="1"/>
+          <line x1="130" y1="110" x2="1450" y2="110" stroke="#cfd8dc" stroke-width="1" stroke-dasharray="4 4"/>
+          <path d="M130,80 L200,80 L200,110 L310,110 L310,80 L420,80 L420,110 L530,110 L530,80 L640,80 L640,110 L750,110 L750,80 L860,80 L860,110 L970,110 L970,80 L1080,80 L1080,110 L1190,110 L1190,80 L1300,80 L1300,110 L1410,110 L1410,80" fill="none" stroke="#fdd835" stroke-width="2.5"/>
+          <text x="130" y="140" fill="#8d6e63" font-size="12">0V/5V 交替，占空比约50%，三路各相差120°电角度</text>
+        </g>
+
+        <!-- 转把模拟 -->
+        <g>
+          <text x="40" y="220" fill="#2e7d32" font-size="14" font-weight="700">转把信号</text>
+          <line x1="130" y1="210" x2="1450" y2="210" stroke="#cfd8dc" stroke-width="1"/>
+          <line x1="130" y1="210" x2="130" y2="330" stroke="#cfd8dc" stroke-width="1"/>
+          <path d="M130,290 L300,280 L500,250 L700,235 L900,222 L1100,214 L1300,209 L1450,207" fill="none" stroke="#43a047" stroke-width="2.5"/>
+          <text x="130" y="350" fill="#8d6e63" font-size="12">静止约 0.8V，随转动平滑升至 4.2V 左右（5V 供电，线性霍尔）</text>
+        </g>
+
+        <!-- 右侧量程标注 -->
+        <g font-size="12" fill="#90a4ae">
+          <text x="1460" y="84" text-anchor="start">5V</text>
+          <text x="1460" y="114" text-anchor="start">0V</text>
+          <text x="1460" y="214" text-anchor="start">4.2V</text>
+          <text x="1460" y="330" text-anchor="start">0.8V</text>
+        </g>
+      </svg>
+      <figcaption>图 3 · 霍尔方波与转把模拟信号波形（便于用万用表/示波器判断好坏）</figcaption>
+    </figure>
+
+    <div class="callout info">
+      <b>霍尔好坏快速判断</b>
+      电机不动时，给霍尔 5V/GND 供电，用万用表直流电压档测 A/B/C 三根信号线对地电压，缓慢转动后轮：好的霍尔会在 0V↔5V 之间跳变；某一路恒高或恒低即该路霍尔损坏。
+    </div>
+  </div>
+
+  <!-- 4.4 转把 -->
+  <div class="card">
+    <h3>4.4 转把（霍尔调速把）</h3>
+    <table>
+      <thead><tr><th>线色</th><th>功能</th><th>参考电压</th></tr></thead>
+      <tbody>
+        <tr><td><span class="wire" style="background:#e53935"></span>红</td><td>+5V 供电</td><td>5V（来自控制器）</td></tr>
+        <tr><td><span class="wire" style="background:#263238"></span>黑</td><td>GND</td><td>0V</td></tr>
+        <tr><td><span class="wire" style="background:#43a047"></span>绿（信号）</td><td>调速信号输出</td><td>0.8V（静止）→ 4.2V（全转）</td></tr>
+      </tbody>
+    </table>
+    <p><b>功能点：</b>信号线是模拟量，控制器根据它计算输出占空比。常见故障：转把进水导致信号异常漂移、回位弹簧失效、信号线断裂（表现为无法调速或转速不稳）。</p>
+  </div>
+
+  <!-- 4.5 刹车断电 -->
+  <div class="card">
+    <h3>4.5 刹车断电（制动信号）</h3>
+    <table>
+      <thead><tr><th>类型</th><th>触发方式</th><th>接线</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><b>低刹（常见）</b></td><td>捏刹把 → 信号线对地短接</td><td>2线（信号+地）</td><td>控制器检测到低电平即断电</td></tr>
+        <tr><td><b>高刹</b></td><td>捏刹把 → 信号线拉高</td><td>2线</td><td>控制器检测到高电平即断电</td></tr>
+        <tr><td><b>电子霍尔刹</b></td><td>非接触霍尔触发</td><td>3线</td><td>寿命长，常见于中高端车</td></tr>
+      </tbody>
+    </table>
+    <p><b>功能点：</b>刹车信号优先级高于转把——即使转把卡在全速，捏刹车也能立即切断动力，是重要安全回路。故障表现为：捏刹车无法断电（危险）、或刹把回位不良导致无法启动。</p>
+  </div>
+
+  <!-- 4.6 电门锁 -->
+  <div class="card">
+    <h3>4.6 电门锁（钥匙开关）</h3>
+    <table>
+      <thead><tr><th>端子</th><th>线色</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>进线（锁前）</td><td>细红</td><td>来自电池正极（经保险丝后）</td></tr>
+        <tr><td>出线（锁后）</td><td>细橙/细红</td><td>拧钥匙后才有电，供给控制器电门锁线</td></tr>
+      </tbody>
+    </table>
+    <p><b>功能点：</b>用万用表通断档测锁体两脚，钥匙 OFF 时断路、ON 时导通。钥匙开关接触不良是“时好时坏、整车突然断电”的常见原因。</p>
+  </div>
+
+  <!-- 4.7 DC转换器 -->
+  <div class="card">
+    <h3>4.7 DC-DC 转换器（48V→12V）</h3>
+    <table>
+      <thead><tr><th>端子</th><th>线色</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>输入 +</td><td>橙（锁后）</td><td>电门锁后 48V+</td></tr>
+        <tr><td>输入 −</td><td>黑</td><td>主地</td></tr>
+        <tr><td>输出 +12V</td><td>橙/黄</td><td>供灯光、喇叭、仪表</td></tr>
+        <tr><td>输出 GND</td><td>黑</td><td>12V 地（与主地共地）</td></tr>
+      </tbody>
+    </table>
+    <p><b>功能点：</b>大灯不亮、喇叭不响、仪表不亮但车能跑，九成是 DC 转换器坏或它的输入（电门锁后）没电。判断：测输出端是否有 12V。</p>
+  </div>
+
+  <!-- 4.8 仪表 -->
+  <div class="card">
+    <h3>4.8 仪表盘</h3>
+    <table>
+      <thead><tr><th>功能</th><th>信号来源</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>供电</td><td>12V（DC转换器）</td><td>或直接锁后取电</td></tr>
+        <tr><td>速度显示</td><td>脉冲信号</td><td>来自控制器速度线（或霍尔采样），测转速换算车速</td></tr>
+        <tr><td>电量显示</td><td>电压采样</td><td>测电池电压按曲线估算 SOC</td></tr>
+        <tr><td>转向/大灯指示</td><td>开关信号</td><td>并联在对应灯路上取信号</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4.9 灯光与手把控制 -->
+  <div class="card">
+    <h3>4.9 灯光系统与手把控制线路</h3>
+    <p>灯光、转向、喇叭、三速等控制都集中在<b>手把组合开关</b>上，全部走 12V（三速为 5V 信号级）。控制逻辑分两类：<b>串联开关</b>（开关串在电源与负载之间）和<b>对地短接</b>（开关把信号线拉低）。</p>
+    <table>
+      <thead><tr><th>开关 / 部件</th><th>回路电压</th><th>控制逻辑</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>灯光总开关</td><td>12V</td><td>串联</td><td>接通后大灯/尾灯才可点亮，是灯光系统的总闸</td></tr>
+        <tr><td>远近光切换</td><td>12V</td><td>串联</td><td>灯光总开关之后切换大灯远/近光</td></tr>
+        <tr><td>转向开关 左/右</td><td>12V</td><td>串联</td><td>把闪光器输出的间歇脉冲导向左或右转向灯</td></tr>
+        <tr><td>闪光器</td><td>12V</td><td>间歇通断</td><td>使转向灯频闪；电子式频率稳定，继电器式随负载变化</td></tr>
+        <tr><td>双闪开关</td><td>12V</td><td>串联</td><td>让左右转向灯同时闪（危险警示灯），绕过转向开关</td></tr>
+        <tr><td>喇叭按钮</td><td>12V</td><td>对地短接</td><td>喇叭一端常接 12V，按钮一端接地，按下导通鸣响</td></tr>
+        <tr><td>三速开关</td><td>5V 信号</td><td>对地短接</td><td>低/中/高通过不同线对地短接，控制器据此限流限速</td></tr>
+      </tbody>
+    </table>
+    <p><b>功能点：</b>① 转向灯闪得飞快通常是某侧灯泡坏（负载变小导致闪光器频率升高）；② 全车灯光都不亮先查 DC 转换器 12V 输出；③ 双闪不工作但单侧转向正常，多为双闪开关或双闪独立线路故障；④ 三速失效常是三速线断或控制器三速识别端损坏。</p>
+  </div>
+
+  <!-- 4.10 其他 -->
+  <div class="card">
+    <h3>4.10 喇叭 / 防盗器 / 充电口</h3>
+    <ul>
+      <li><b>喇叭</b>：12V 供电，手把按钮一端接地控制。不响查 12V、按钮通断、喇叭本体。</li>
+      <li><b>防盗报警器</b>：接电池常电（不断电）+ 控制器锁电机线 + 震动传感器。遥控上锁后，控制器锁电机线使能，推车时电机产生阻力并报警。</li>
+      <li><b>充电口</b>：直连电池，部分车型带防反接二极管。充电口发热/打火多是接触不良或端子氧化。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 5 线色标准 ================= -->
+<section id="s5">
+  <h2><span class="no">5</span>线路颜色与线径识别标准</h2>
+  <div class="card">
+    <p class="lead">国产电动车线色<b>没有强制国标</b>，但行业惯例高度一致。以下为最常见的对照表，<b>维修时务必以万用表核实</b>，切勿仅凭颜色盲接。</p>
+    <h3>5.1 常见线色对照</h3>
+    <table>
+      <thead><tr><th>线色</th><th>常见功能</th><th>电压/信号</th></tr></thead>
+      <tbody>
+        <tr><td><span class="wire" style="background:#e53935"></span>红（粗）</td><td>主电源正极 B+</td><td>48~72V</td></tr>
+        <tr><td><span class="wire" style="background:#263238"></span>黑（粗）</td><td>主电源负极 B− / 全车地</td><td>0V</td></tr>
+        <tr><td><span class="wire" style="background:#e53935"></span>红（细）</td><td>电门锁前电源 / +5V 供电</td><td>48V 或 5V</td></tr>
+        <tr><td><span class="wire" style="background:#fb8c00"></span>橙</td><td>电门锁后电源 / 12V+</td><td>48V 或 12V</td></tr>
+        <tr><td><span class="wire" style="background:#fdd835"></span>黄（粗）</td><td>电机相线 U</td><td>三相交流（PWM）</td></tr>
+        <tr><td><span class="wire" style="background:#1e88e5"></span>蓝（粗）</td><td>电机相线 V</td><td>三相交流（PWM）</td></tr>
+        <tr><td><span class="wire" style="background:#43a047"></span>绿（粗）</td><td>电机相线 W</td><td>三相交流（PWM）</td></tr>
+        <tr><td><span class="wire" style="background:#43a047"></span>绿（细）</td><td>转把信号 / 霍尔 C</td><td>0~5V</td></tr>
+        <tr><td><span class="wire" style="background:#fdd835"></span>黄（细）</td><td>霍尔 A / 转向灯</td><td>0~5V / 12V</td></tr>
+        <tr><td><span class="wire" style="background:#1e88e5"></span>蓝（细）</td><td>霍尔 B / 转向灯</td><td>0~5V / 12V</td></tr>
+        <tr><td><span class="wire" style="background:#d81b60"></span>粉/浅红</td><td>霍尔 +5V 供电</td><td>5V</td></tr>
+        <tr><td><span class="wire" style="background:#9e9e9e"></span>白</td><td>限速线 / 学习线 / 低速信号</td><td>开关量</td></tr>
+        <tr><td><span class="wire" style="background:#8d6e63"></span>棕</td><td>刹车灯 / 巡航</td><td>12V / 开关量</td></tr>
+        <tr><td><span class="wire" style="background:#8e24aa"></span>紫</td><td>刹车断电 / 防盗</td><td>开关量</td></tr>
+      </tbody>
+    </table>
+    <h3>5.2 线径识别（判断回路类型）</h3>
+    <table>
+      <thead><tr><th>线径</th><th>典型用途</th><th>承载电流</th></tr></thead>
+      <tbody>
+        <tr><td>2.5~4 mm²（粗）</td><td>电池主线、电机三相</td><td>15~40A</td></tr>
+        <tr><td>1.0~1.5 mm²（中）</td><td>电门锁、DC输入、大灯</td><td>5~10A</td></tr>
+        <tr><td>0.3~0.5 mm²（细）</td><td>霍尔、转把、信号线</td><td>mA~1A</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <b>换线原则</b>
+      替换线路时，新线线径<b>只能大于等于</b>原线，尤其是电机三相和电池主线，线径过细会发热起火。低压信号线注意屏蔽与远离大电流线，防止电磁干扰导致转把/霍尔误动作。
+    </div>
+
+    <h3>5.3 负极 / 地线（GND）识别方法</h3>
+    <p class="lead">两轮电动车采用<b>全车共地</b>：电池负极、控制器 B−、DC 转换器 GND、转把/霍尔 GND、所有灯具负极都是<b>同一电位（0V）</b>，在接线图中用三横线<b>接地符号</b>标注。识别一根线是不是地线，按下面 4 招顺序来：</p>
+    <table>
+      <thead><tr><th>方法</th><th>操作</th><th>判断</th></tr></thead>
+      <tbody>
+        <tr><td><b>① 看线色</b></td><td>先看线皮颜色</td><td>全车<b>黑色线</b>基本都是地（粗黑=主负极，细黑=信号地）；个别厂家用黑白双色或绿皮线，需结合其他方法确认</td></tr>
+        <tr><td><b>② 万用表通断档</b></td><td>一只表笔接<b>电池负极</b>（或车架金属），另一只测目标线</td><td>蜂鸣器响 = 地线（与负极导通）</td></tr>
+        <tr><td><b>③ 万用表电压档</b></td><td>黑表笔接已知地，红表笔测目标线，整车通电</td><td>测到 48V/12V/5V = 非地线（电源线）；读数 0V 且与负极导通 = 地线</td></tr>
+        <tr><td><b>④ 看车架搭铁</b></td><td>观察黑线是否直接拧在车架螺丝上</td><td>直接接车架的 = 搭铁地（部分车型负极搭铁）</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <b>地线排查要点</b>
+      ① 全车<b>黑线互相导通</b>是正常现象（共地），测量始终以<b>电池负极为基准</b>最可靠；② 地线断开 = 信号回路悬空，表现为仪表乱跳、转把无反应、灯光不亮，却<b>查不到保险丝熔断</b>——这类“隐性断路”重点查黑线插头是否松动、氧化；③ 不要在地线上串保险丝或开关，否则会破坏共地。
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6 故障排查 ================= -->
+<section id="s6">
+  <h2><span class="no">6</span>常见线路故障排查表</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>故障现象</th><th>最可能原因</th><th>排查步骤（按顺序）</th></tr></thead>
+      <tbody>
+        <tr><td>整车无任何反应</td><td>电门锁链路断开</td><td>①测电池电压 ②查保险丝 ③测电门锁通断 ④测控制器电门锁线有无锁后电压</td></tr>
+        <tr><td>仪表亮、车不走</td><td>转把/刹车/控制器</td><td>①捏刹车看是否断电误触发 ②测转把 5V 与信号电压 ③测霍尔 5V ④查电机三相通断</td></tr>
+        <tr><td>电机抖动、异响、无力</td><td>霍尔失效或相序错</td><td>①测三路霍尔是否跳变 ②重新对插学习线做自学习 ③检查三相线是否松动氧化</td></tr>
+        <tr><td>一开钥匙就自己跑（飞车）</td><td>转把信号异常</td><td>①查转把信号线是否对地短路/进水 ②更换转把 ③查控制器转把输入电路</td></tr>
+        <tr><td>大灯/喇叭/仪表都不亮，车能跑</td><td>DC-DC 转换器</td><td>①测 DC 输出 12V ②测 DC 输入（锁后）电压 ③更换 DC 转换器</td></tr>
+        <tr><td>转向灯常亮不闪或频闪</td><td>闪光器/灯泡</td><td>①换闪光器 ②检查灯泡是否损坏（频闪多为负载变小）</td></tr>
+        <tr><td>充电口打火、充不进电</td><td>接触不良/BMS保护</td><td>①检查充电口端子氧化 ②查 BMS 是否保护需激活 ③测充电器输出电压</td></tr>
+        <tr><td>行驶中断续断电</td><td>接插件虚接</td><td>①重点查电门锁、电池插头、保险丝座 ②逐段晃动线束找虚接点</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= 7 维修流程与工具 ================= -->
+<section id="s7">
+  <h2><span class="no">7</span>维修流程与工具清单</h2>
+  <div class="card">
+    <h3>7.1 必备工具</h3>
+    <ul>
+      <li><b>万用表</b>（直流电压、通断、电阻档，建议自动量程）—— 排线第一工具</li>
+      <li>螺丝刀组（十字/一字/内六角）、套筒扳手</li>
+      <li>热缩管 + 热风枪/打火机、电工胶带（防水）</li>
+      <li>剥线钳、压线钳、接线端子/安德森插头</li>
+      <li>绝缘手套（拆主线时）</li>
+    </ul>
+    <h3>7.2 标准排障流程</h3>
+    <ol>
+      <li><b>断电</b>：关钥匙、拔电池主插头。</li>
+      <li><b>观察</b>：线束有无烧焦、破皮、进水、氧化、松动、异味。</li>
+      <li><b>测电源</b>：电池电压 → 保险丝 → 电门锁 → 控制器 B+/锁线。</li>
+      <li><b>测信号</b>：转把 5V/信号、霍尔 5V/信号、刹车开关。</li>
+      <li><b>测负载</b>：电机三相电阻、DC 输出 12V、灯光通断。</li>
+      <li><b>定位→更换/修复</b>：换件后先低压信号确认，再通电试车。</li>
+    </ol>
+    <div class="callout danger">
+      <b>最后提醒</b>
+      维修完成后务必<b>固定好线束</b>（扎带），恢复所有防水接头；试车时先架起后轮空转，确认转把、刹车断电、灯光全部正常后再上路。
+    </div>
+  </div>
+</section>
+
+<footer>
+  两轮电动车维修教程 · 全车线路详解 — 仅供具备基础电路知识者参考，实际操作请遵循当地安全与法规要求
+</footer>
+
+</div>
+</body>
+</html>
