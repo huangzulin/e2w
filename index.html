@@ -205,9 +205,8 @@
         <text x="482" y="760" fill="#e65100" font-size="12" font-weight="600">锁后线(橙)</text>
 
         <!-- 6. 充电口 -> 电池 ± 端子（红=+ / 黑=−，与主线共用电池端子） -->
-        <path d="M 40 1194 L 40 1010 L 270 1010 L 270 1050" stroke="#e53935" stroke-width="2.5"/>
-        <path d="M 40 1216 L 40 1248 L 270 1248 L 270 1110" stroke="#263238" stroke-width="2.5"/>
-        <text x="60" y="1204" fill="#37474f" font-size="12">直连电池</text>
+        <path d="M 282 1170 L 282 1040 L 270 1040 L 270 1050" stroke="#e53935" stroke-width="2.5"/>
+        <path d="M 270 1170 L 270 1110" stroke="#263238" stroke-width="2.5"/>
 
         <!-- 7. 电门锁出线分叉 -> DC 输入+（橙） -->
         <path d="M 490 620 L 400 620 Q 380 620 380 600" stroke="#fb8c00" stroke-width="2" marker-end="url(#ar-orange)"/>
@@ -493,21 +492,34 @@
           <rect x="0" y="0" width="230" height="34" rx="10" fill="#e53935"/>
           <rect x="0" y="16" width="230" height="18" fill="#e53935"/>
           <text x="115" y="24" fill="#fff" font-size="15" font-weight="700" text-anchor="middle">电池组</text>
-          <text x="115" y="62" fill="#37474f" font-size="13" text-anchor="middle">48/60/72V 锂电/铅酸</text>
-          <text x="115" y="84" fill="#c62828" font-size="12" text-anchor="middle">容量 12~32Ah</text>
+          <!-- 电芯分隔，直观呈现多串电芯 -->
+          <g stroke="#eceff1" stroke-width="2">
+            <line x1="46" y1="44" x2="46" y2="126"/>
+            <line x1="92" y1="44" x2="92" y2="126"/>
+            <line x1="138" y1="44" x2="138" y2="126"/>
+            <line x1="184" y1="44" x2="184" y2="126"/>
+          </g>
+          <text x="115" y="66" fill="#37474f" font-size="13" text-anchor="middle">48/60/72V 锂电/铅酸</text>
+          <text x="115" y="90" fill="#c62828" font-size="12" text-anchor="middle">容量 12~32Ah</text>
+          <!-- ± 接线柱（凸起端子） -->
+          <rect x="222" y="22" width="16" height="16" rx="3" fill="#e53935"/>
+          <rect x="222" y="82" width="16" height="16" rx="3" fill="#37474f"/>
           <circle cx="230" cy="30" r="5" fill="#e53935"/>
           <circle cx="230" cy="90" r="5" fill="#263238"/>
-          <text x="240" y="34" fill="#c62828" font-size="12">+</text>
-          <text x="240" y="94" fill="#37474f" font-size="12">−</text>
+          <text x="246" y="35" fill="#c62828" font-size="14" font-weight="700">+</text>
+          <text x="246" y="96" fill="#37474f" font-size="14" font-weight="700">−</text>
         </g>
 
-        <!-- 充电口 -->
-        <g transform="translate(40,1170)">
-          <rect x="0" y="0" width="160" height="70" rx="10" fill="#fff" stroke="#78909c" stroke-width="2"/>
-          <text x="80" y="26" fill="#37474f" font-size="14" font-weight="700" text-anchor="middle">充电接口</text>
-          <text x="80" y="50" fill="#455a64" font-size="12" text-anchor="middle">防反接 直连电池</text>
-          <circle cx="0" cy="24" r="4" fill="#e53935"/>
-          <circle cx="0" cy="46" r="4" fill="#263238"/>
+        <!-- 充电口（插座，置于电池正下方，引脚朝上接入 ± 端子） -->
+        <g transform="translate(150,1170)">
+          <rect x="0" y="0" width="150" height="66" rx="12" fill="#f7f9fb" stroke="#78909c" stroke-width="2"/>
+          <text x="75" y="22" fill="#37474f" font-size="14" font-weight="700" text-anchor="middle">充电口</text>
+          <text x="75" y="42" fill="#455a64" font-size="11.5" text-anchor="middle">DC IN · 直连电池 ±</text>
+          <!-- 两个插针（顶部朝上，接电池 ± 端子） -->
+          <rect x="114" y="-6" width="12" height="12" rx="2" fill="#37474f"/>
+          <rect x="126" y="-6" width="12" height="12" rx="2" fill="#e53935"/>
+          <circle cx="120" cy="0" r="4.5" fill="#263238"/>
+          <circle cx="132" cy="0" r="4.5" fill="#e53935"/>
         </g>
 
         <!-- 电机 -->
