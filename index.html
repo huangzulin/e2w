@@ -85,6 +85,21 @@
     nav.toc .panel{width:84%}
     nav.toc a{padding:13px 14px}
   }
+  @media(min-width:761px){
+    nav.toc{position:static;top:auto;background:none;border-bottom:none;box-shadow:none;z-index:auto}
+    nav.toc .bar{display:none}
+    nav.toc .backdrop{display:none}
+    nav.toc .panel{position:fixed;top:0;left:0;bottom:0;width:240px;max-width:240px;transform:none;box-shadow:2px 0 14px rgba(0,0,0,.08);z-index:40}
+    nav.toc .panel.open{transform:none}
+    nav.toc .panel-close{display:none}
+    nav.toc .panel-head{padding:20px 18px 12px}
+    nav.toc .inner{padding:6px 10px 30px}
+    nav.toc a{font-size:14px;padding:10px 14px}
+    nav.toc a.sub{font-size:12.5px}
+    header.hero{margin-left:240px}
+    .wrap{margin-left:240px;margin-right:auto;max-width:1080px;padding:0 24px 80px}
+    footer{margin-left:240px}
+  }
   ul,ol{padding-left:24px;margin:10px 0}
   li{margin:5px 0}
   .kbd{font-family:var(--mono);font-size:12.5px;background:#2b3a4a;color:#fff;padding:2px 8px;border-radius:5px}
@@ -122,13 +137,10 @@
     <div class="inner">
       <a href="#s1">1 安全须知</a>
       <a href="#s2">2 电气总览</a>
-      <a href="#s3">3 线路图</a>
-      <a href="#s4">4 功能点详解</a>
-      <a href="#s5">5 线色线径</a>
-      <a href="#s6">6 故障排查</a>
-      <a href="#s7">7 维修流程</a>
       <a href="#s2-1" class="sub">·2.1 三大回路</a>
       <a href="#s2-2" class="sub">·2.2 上电流程</a>
+      <a href="#s3">3 线路图</a>
+      <a href="#s4">4 功能点详解</a>
       <a href="#s4-1" class="sub">·4.1 电池/充电</a>
       <a href="#s4-2" class="sub">·4.2 控制器接口</a>
       <a href="#s4-3" class="sub">·4.3 电机/霍尔</a>
@@ -142,6 +154,7 @@
       <a href="#s4-9-2" class="sub">·4.9.2 控制逻辑</a>
       <a href="#s4-9-3" class="sub">·4.9.3 常见故障</a>
       <a href="#s4-10" class="sub">·4.10 喇叭/充电口</a>
+      <a href="#s5">5 线色线径</a>
       <a href="#s5-1" class="sub">·5.1 线色对照</a>
       <a href="#s5-2" class="sub">·5.2 线径识别</a>
       <a href="#s5-3" class="sub">·5.3 地线识别</a>
@@ -153,6 +166,8 @@
       <a href="#s5-4-3-1" class="sub">·5.4.3.1 通断追线</a>
       <a href="#s5-4-3-2" class="sub">·5.4.3.2 上电特征</a>
       <a href="#s5-4-3-3" class="sub">·5.4.3.3 收尾</a>
+      <a href="#s6">6 故障排查</a>
+      <a href="#s7">7 维修流程</a>
       <a href="#s7-1" class="sub">·7.1 必备工具</a>
       <a href="#s7-2" class="sub">·7.2 排障流程</a>
       <a href="#s7-3" class="sub">·7.3 维修补充</a>
@@ -1413,15 +1428,19 @@
   });
   var ids = Object.keys(map);
   if(!ids.length) return;
+  var mqPC = window.matchMedia ? window.matchMedia('(min-width:761px)') : {matches:false};
+  function panelVisible(){ return !!(panel && (panel.classList.contains('open') || mqPC.matches)); }
   function activate(id){
     links.forEach(function(l){ l.classList.remove('active'); });
     var a = map[id];
     if(!a) return;
     a.classList.add('active');
-    if(panel && panel.classList.contains('open') && inner){
+    if(panelVisible() && inner){
       var pr = inner.getBoundingClientRect();
       var ar = a.getBoundingClientRect();
-      inner.scrollTop += (ar.top - pr.top - 12);
+      if(ar.top < pr.top + 6 || ar.bottom > pr.bottom - 6){
+        inner.scrollTop += (ar.top - pr.top - 14);
+      }
     }
   }
   // 点击链接后收起抽屉（让出视野看正文）
