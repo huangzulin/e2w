@@ -117,7 +117,7 @@
       <li><b>先断电再插拔</b>：霍尔、转把等低压信号插头可带电但需防短路；主电源插头（粗红/粗黑）必须断电操作。</li>
       <li><b>绝缘恢复</b>：破线检测后务必用热缩管或防水胶带恢复绝缘，电动车长期涉水环境，接头进水会导致漏电、误触发。</li>
       <li><b>万用表是底线工具</b>：通电前用通断/电压档核对，不要凭线色直接盲接——不同厂家线色标准并不完全统一。</li>
-    <li><b>拆电池顺序</b>：先断<b>负极</b>再断正极（用安德森插头则直接整体拔插，无需分先后）；装回时先正后负。可避免扳手同时碰壳造成瞬间短路。</li>
+      <li><b>拆电池顺序</b>：先断<b>负极</b>再断正极（用安德森插头则直接整体拔插，无需分先后）；装回时先正后负。可避免扳手同时碰壳造成瞬间短路。</li>
     <li><b>工具与穿戴</b>：使用绝缘工具，操作主线时戴绝缘手套，<b>勿佩戴金属饰物</b>（戒指/手链易意外短接正负极）。</li>
     <li><b>保险丝严禁代用</b>：更换保险丝必须用<b>同规格熔断器</b>，严禁铜丝、铁丝代替——过载时无法断开，会烧毁线束甚至起火。</li>
     </ul>
@@ -203,8 +203,8 @@
         <text x="500" y="1102" fill="#37474f" font-size="13" text-anchor="middle" font-weight="700">主− 粗黑 = GND 全车共地</text>
 
         <!-- 4. 主电源分叉 -> 电门锁进线（细红） -->
-        <path d="M 300 1050 L 300 925 L 330 925" stroke="#ef5350" stroke-width="2"/>
-        <text x="292" y="990" fill="#c62828" font-size="12">细红 锁前</text>
+        <path d="M 460 1050 L 460 990 L 330 990 L 330 925" stroke="#ef5350" stroke-width="2"/>
+        <text x="452" y="985" fill="#c62828" font-size="12" text-anchor="end">细红 锁前</text>
 
         <!-- 5. 电门锁出线 -> 控制器电门锁线（橙） -->
         <path d="M 490 925 L 490 600 L 560 600" stroke="#fb8c00" stroke-width="2.5"/>
@@ -216,6 +216,7 @@
 
         <!-- 7. 电门锁出线分叉 -> DC 输入+（橙） -->
         <path d="M 490 620 L 400 620 Q 380 620 380 600" stroke="#fb8c00" stroke-width="2" marker-end="url(#ar-orange)"/>
+        <circle cx="490" cy="620" r="3.2" fill="#fb8c00"/>
         <text x="430" y="612" fill="#e65100" font-size="12">48V输入</text>
 
         <!-- 8. DC 12V输出 -> 12V主线 -->
@@ -244,7 +245,7 @@
         <path d="M 490 260 L 490 300" stroke="#42a5f5" stroke-width="1.8"/>
         <path d="M 575 260 L 575 440 L 550 440" stroke="#6d4c41" stroke-width="1.8"/>
         <path d="M 640 260 L 640 300" stroke="#f9a825" stroke-width="1.8"/>
-        <path d="M 734 260 L 734 300" stroke="#7cb342" stroke-width="1.8"/>
+        <path d="M 720 260 L 734 260 L 734 300" stroke="#7cb342" stroke-width="1.8"/>
         <path d="M 780 260 L 780 440" stroke="#00897b" stroke-width="1.8"/>
         <text x="422" y="282" fill="#1565c0" font-size="11" text-anchor="end">远光</text>
         <text x="482" y="282" fill="#1565c0" font-size="11" text-anchor="end">近光</text>
@@ -378,7 +379,8 @@
           <rect x="0" y="0" width="200" height="110" rx="10" fill="#fff" stroke="#1e88e5" stroke-width="2"/>
           <text x="100" y="26" fill="#1565c0" font-size="14" font-weight="700" text-anchor="middle">大灯</text>
           <text x="100" y="50" fill="#455a64" font-size="12" text-anchor="middle">远光 / 近光</text>
-          <text x="100" y="74" fill="#455a64" font-size="12" text-anchor="middle">12V · 各约 21W</text>
+          <text x="100" y="74" fill="#455a64" font-size="12" text-anchor="middle">12V · 卤素约 35W</text>
+          <text x="100" y="92" fill="#455a64" font-size="12" text-anchor="middle">LED 约 10~30W</text>
           <circle cx="70" cy="0" r="4" fill="#1e88e5"/>
           <circle cx="130" cy="0" r="4" fill="#42a5f5"/>
           <text x="70" y="-8" fill="#1565c0" font-size="10.5" text-anchor="middle">远光</text>
@@ -570,7 +572,7 @@
           <line x1="16" y1="112" x2="60" y2="112" stroke="#ff9800" stroke-width="2"/><text x="70" y="117" fill="#37474f" font-size="12">12V 主线 (橙)</text>
           <line x1="16" y1="134" x2="60" y2="134" stroke="#f9a825" stroke-width="1.8"/><text x="70" y="139" fill="#37474f" font-size="12">转向控制 (黄/绿)</text>
           <line x1="16" y1="156" x2="60" y2="156" stroke="#1e88e5" stroke-width="1.8"/><text x="70" y="161" fill="#37474f" font-size="12">灯光控制 (蓝) · 喇叭 (青)</text>
-          <line x1="16" y1="178" x2="60" y2="178" stroke="#43a047" stroke-width="1.6"/><text x="70" y="183" fill="#37474f" font-size="12">信号线 (转把/霍尔/仪表/三速)</text>
+          <line x1="16" y1="178" x2="38" y2="178" stroke="#43a047" stroke-width="1.6"/><line x1="38" y1="178" x2="60" y2="178" stroke="#d81b60" stroke-width="1.6"/><text x="70" y="183" fill="#37474f" font-size="12">信号线 (转把/仪表/三速) · 霍尔线(粉)</text>
           <line x1="16" y1="200" x2="60" y2="200" stroke="#fdd835" stroke-width="4"/><text x="70" y="205" fill="#37474f" font-size="12">电机三相 (黄/蓝/绿)</text>
           <g>
             <line x1="34" y1="212" x2="34" y2="222" stroke="#263238" stroke-width="2"/>
@@ -613,11 +615,12 @@
       <tbody>
         <tr><td>主正极 <code>+</code></td><td><span class="wire" style="background:#e53935"></span>粗红</td><td>动力主供电</td><td>经保险丝进入控制器 B+，持续大电流</td></tr>
         <tr><td>主负极 <code>−</code></td><td><span class="wire" style="background:#263238"></span>粗黑</td><td>主回路地</td><td>全车共地，与控制器 B− 相连</td></tr>
-        <tr><td>充电口</td><td>红/黑</td><td>充电输入</td><td>多数车充放电同口，直连电池；充电时须断开负载（或充电器自动识别）</td></tr>
+        <tr><td>充电口</td><td>红/黑</td><td>充电输入</td><td>多数车充放电同口，直连电池；建议关钥匙充电（不必断开负载，见 7.3）</td></tr>
         <tr><td>BMS 通信（锂电）</td><td>白/黄 等</td><td>电量/保护通信</td><td>锂电保护板与仪表/控制器通信，部分车型为 RS485 或一线通</td></tr>
       </tbody>
     </table>
-    <p><b>功能点要点：</b>锂电包内部有 BMS（电池管理系统），负责过充/过放/过流/短路/温度保护。整车“突然断电”除保险丝外，也可能是 BMS 触发保护。常见激活方式：①拔下电池插头等待 1~2 分钟再插上（重置保护）；②若为<b>过放保护</b>，需用<b>原装充电器</b>充电激活，少数 BMS 需短接恢复触点/按说明书操作。</p>
+    <p><b>功能点要点：</b>锂电包内部有 BMS（电池管理系统），负责过充/过放/过流/短路/温度保护。整车"突然断电"除保险丝外，也可能是 BMS 触发保护。常见激活方式：①拔下电池插头等待 1~2 分钟再插上（重置保护）；②若为<b>过放保护</b>，需用<b>原装充电器</b>充电激活，少数 BMS 需短接恢复触点/按说明书操作。</p>
+    <p><b>充电器电压匹配：</b>充电器输出电压约等于电池组<b>满电电压</b>——48V 组 ≈ 54.6V（三元）/ 54.8V（铁锂）/ 57.6V（铅酸）；60V 组 ≈ 67.2~72V；72V 组 ≈ 84~87.6V。拿错充电器会充不满、过充或触发 BMS 保护，换充电器务必核对输出电压与电池组规格。</p>
   </div>
 
   <!-- 4.2 控制器 -->
@@ -697,7 +700,7 @@
 
           <rect x="0" y="144" width="760" height="76" rx="8" fill="#fff8f0" stroke="#ffd591"/>
           <text x="16" y="176" fill="#e65100" font-weight="700">电门锁线</text>
-          <text x="16" y="206" fill="#6d4c41">来自电门锁输出。拧钥匙后有 48V+ 电压，控制器 MCU 才上电。无此电压=整车无反应。</text>
+          <text x="16" y="206" fill="#6d4c41">来自电门锁输出。拧钥匙后有锁后电池电压（48/60/72V，随电池规格），控制器 MCU 才上电。无此电压=整车无反应。</text>
 
           <rect x="0" y="240" width="760" height="100" rx="8" fill="#fffde7" stroke="#fff59d"/>
           <text x="16" y="272" fill="#c9a400" font-weight="700">电机三相 U/V/W</text>
@@ -1071,42 +1074,42 @@
         <rect x="30" y="46" width="862" height="84" rx="18" fill="#f7f9fb" stroke="#78909c" stroke-width="2"/>
         <g text-anchor="middle">
           <circle cx="64" cy="92" r="22" fill="#e53935" stroke="#00000033"/>
-          <text x="64" y="66" fill="#78909c" font-size="11">1</text>
+          <text x="64" y="66" fill="#ffffff" font-size="11">1</text>
           <text x="64" y="150" fill="#37474f">12V 电源</text>
           <text x="64" y="168" fill="#c62828" font-size="11.5">红</text>
 
           <circle cx="164" cy="92" r="22" fill="#263238" stroke="#00000033"/>
-          <text x="164" y="66" fill="#78909c" font-size="11">2</text>
+          <text x="164" y="66" fill="#ffffff" font-size="11">2</text>
           <text x="164" y="150" fill="#37474f">GND 地</text>
           <text x="164" y="168" fill="#37474f" font-size="11.5">黑</text>
 
           <circle cx="264" cy="92" r="22" fill="#43a047" stroke="#00000033"/>
-          <text x="264" y="66" fill="#78909c" font-size="11">3</text>
+          <text x="264" y="66" fill="#ffffff" font-size="11">3</text>
           <text x="264" y="150" fill="#37474f">左转向</text>
           <text x="264" y="168" fill="#2e7d32" font-size="11.5">绿</text>
 
           <circle cx="364" cy="92" r="22" fill="#fdd835" stroke="#00000033"/>
-          <text x="364" y="66" fill="#78909c" font-size="11">4</text>
+          <text x="364" y="66" fill="#333333" font-size="11">4</text>
           <text x="364" y="150" fill="#37474f">右转向</text>
           <text x="364" y="168" fill="#c9a400" font-size="11.5">黄</text>
 
           <circle cx="464" cy="92" r="22" fill="#1e88e5" stroke="#00000033"/>
-          <text x="464" y="66" fill="#78909c" font-size="11">5</text>
+          <text x="464" y="66" fill="#ffffff" font-size="11">5</text>
           <text x="464" y="150" fill="#37474f">大灯/变光</text>
           <text x="464" y="168" fill="#1565c0" font-size="11.5">蓝</text>
 
           <circle cx="564" cy="92" r="22" fill="#8d6e63" stroke="#00000033"/>
-          <text x="564" y="66" fill="#78909c" font-size="11">6</text>
+          <text x="564" y="66" fill="#ffffff" font-size="11">6</text>
           <text x="564" y="150" fill="#37474f">喇叭</text>
           <text x="564" y="168" fill="#5d4037" font-size="11.5">棕</text>
 
           <circle cx="664" cy="92" r="22" fill="#8e24aa" stroke="#00000033"/>
-          <text x="664" y="66" fill="#78909c" font-size="11">7</text>
+          <text x="664" y="66" fill="#ffffff" font-size="11">7</text>
           <text x="664" y="150" fill="#37474f">左刹车断电</text>
           <text x="664" y="168" fill="#7b1fa2" font-size="11.5">紫</text>
 
           <circle cx="764" cy="92" r="22" fill="#fb8c00" stroke="#00000033"/>
-          <text x="764" y="66" fill="#78909c" font-size="11">8</text>
+          <text x="764" y="66" fill="#ffffff" font-size="11">8</text>
           <text x="764" y="150" fill="#37474f">右刹车断电</text>
           <text x="764" y="168" fill="#e65100" font-size="11.5">橙</text>
 
@@ -1121,7 +1124,7 @@
 
     <div class="callout warn">
       <b>颜色只能当线索，不能当结论</b>
-      上图是业内"通用型"手把最常见的线色顺序，但<b>并非统一标准</b>：空孔位置、线色、孔序各厂都不同（比如有的把刹车做成蓝/绿、喇叭做成白/灰）。换车、换件时必须用万用表实测，<b>切勿只凭颜色对插</b>——尤其是 brake/horn 这类低电平信号线接反不会冒烟，但会让你误判故障。
+      上图是业内"通用型"手把最常见的线色顺序，但<b>并非统一标准</b>：空孔位置、线色、孔序各厂都不同（比如有的把刹车做成蓝/绿、喇叭做成白/灰）。<b>即使在本教程内也如此</b>：本图把棕=喇叭、橙=右刹车，而 5.1 线色表里棕=刹车灯/巡航、橙=锁后/12V——两处取自不同线束的常见惯例，正好说明"线色随线束而异"。换车、换件时必须用万用表实测，<b>切勿只凭颜色对插</b>——尤其是 brake/horn 这类低电平信号线接反不会冒烟，但会让你误判故障。
     </div>
 
     <h4>5.4.2.1 逐针流程：捏刹 / 拨转向 / 按喇叭，看每根针怎么变</h4>
@@ -1194,7 +1197,7 @@
       <thead><tr><th>目标线</th><th>通断追到哪（无需操作把手）</th><th>旁证</th></tr></thead>
       <tbody>
         <tr><td>刹车线（2 根）</td><td>左 / 右<b>刹把微动开关</b>的对应端子（刹把不捏也能量）</td><td>该开关另一端 ↔ GND；微动常开，常态不通、捏下才通</td></tr>
-        <tr><td>左 / 右转向</td><td>左 / 右<b>转向灯线束</b>或<b>闪光器</b>对应输出</td><td>闪光器端可见同根线"间歇供电"</td></tr>
+        <tr><td>左 / 右转向</td><td>左 / 右<b>转向灯线束</b>（插头端直连对应灯）</td><td>装回后拨转向该灯才闪（脉冲由闪光器经手把开关送来）</td></tr>
         <tr><td>大灯 / 远近光</td><td><b>大灯插头</b>近光 / 远光端子</td><td>拨动开关的那根（装回后）才变</td></tr>
         <tr><td>喇叭</td><td><b>喇叭接柱</b>之一</td><td>按钮按下才与 GND/12V 接通（装回验证）</td></tr>
         <tr><td>GND</td><td>电池负极 / 车架搭铁</td><td>≈ 0Ω，全车共用</td></tr>
@@ -1204,10 +1207,11 @@
     <p><b>技巧：</b>拆开那一刻就给 8 根线贴 <b>1–8 号标签</b>（号码管 / 胶带），再逐根"插头针 ↔ 目标端子"通断，命中即命名；GND/12V 已定，剩下逐根命中即可。</p>
 
     <h4>5.4.3.2 兜底：上电电压特征（目标器件也够不到时）</h4>
-    <p>手头只有这束线、整车 / 器件都不在旁边、做不了追线时，可用"钥匙 ON、插头仍断开"时的<b>上电特征</b>预筛：</p>
+    <p>手头只有这束线、整车 / 器件都不在旁边、做不了追线时，可用"钥匙 ON、插头仍断开"时的<b>上电特征</b>预筛。先分清两类针：</p>
     <ul>
-      <li>控制器对各信号针有<b>内部上拉</b>：量每针对 GND 的直流电压，<b>多数</b>刹车 / 转向 / 喇叭 / 大灯控制针 = 上拉<b>高电平</b>（常见 5V 或 12V，看车型），<b>个别</b>（开关接 12V 型、共阳设计）= <b>0V</b>。</li>
-      <li>这一步只能把线分成"电源 / 地 / 若干高电平信号 / 个别 0V"，<b>无法精确到"制动 vs 转向 vs 喇叭"</b>，还需靠线色 / 孔位假设或装车后追线定名。</li>
+      <li><b>控制器输入型信号针</b>（刹车 / 三速 / 巡航等）：控制器对它们有<b>内部上拉</b>——多数读到<b>高电平</b>（常见 5V 或 12V，看车型），个别（开关接 12V 型、共阳设计）= <b>0V</b>。</li>
+      <li><b>开关输出型负载针</b>（转向 / 喇叭 / 大灯等）：它们由手把开关向负载供电，插头断开后回不到电源，多读 <b>0V 或开路</b>（负载灯泡 / 喇叭还挂在线上，或悬空），<b>不会有上拉电压</b>——别把它误认成"坏了"。</li>
+      <li>所以上电特征只能把线分成"电源 / 地 / 若干高电平输入 / 0V 负载"，<b>无法精确到具体功能</b>，还需靠线色 / 孔位假设或装车后追线定名。</li>
       <li>顺带排除"真地"：真 <b>GND 针 ↔ 电池负极 ≈ 0Ω</b>，而开关信号线对 GND 常态<b>开路 / 大阻值</b>（开关内是常开微动），据此先圈出信号线。</li>
     </ul>
 
@@ -1242,6 +1246,10 @@
         <tr><td>转向灯常亮不闪或频闪</td><td>闪光器/灯泡</td><td>①换闪光器 ②检查灯泡是否损坏（频闪多为负载变小）</td></tr>
         <tr><td>充电口打火、充不进电</td><td>接触不良/BMS保护</td><td>①检查充电口端子氧化 ②查 BMS 是否保护需激活 ③测充电器输出电压</td></tr>
         <tr><td>行驶中断续断电</td><td>接插件虚接</td><td>①重点查电门锁、电池插头、保险丝座 ②逐段晃动线束找虚接点</td></tr>
+        <tr><td>刹车灯常亮（不捏也亮）</td><td>刹车开关粘连 / 接地回路常通</td><td>①断开刹车开关的接地回路看灯是否熄灭 ②更换刹车开关</td></tr>
+        <tr><td>刹车灯不亮</td><td>12V 常电线 / 刹车开关 / 灯本身</td><td>①测"12V（刹车灯常电）"是否到位 ②捏刹测开关通断 ③换灯</td></tr>
+        <tr><td>喇叭不响</td><td>12V / 按钮接地 / 喇叭本体</td><td>①测喇叭两端 12V ②按按钮测接地是否导通 ③换喇叭</td></tr>
+        <tr><td>仪表不亮但灯光正常</td><td>仪表供电 / 仪表损坏</td><td>①测仪表 12V（或锁后）供电 ②测仪表 GND ③换仪表</td></tr>
       </tbody>
     </table>
   </div>
