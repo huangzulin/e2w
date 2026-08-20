@@ -25,6 +25,7 @@
     --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
   }
   *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:56px}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;font-size:15px}
   .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
   header.hero{background:linear-gradient(135deg,#0d2b52 0%,#1a6fd0 60%,#2f8de0 100%);color:#fff;padding:48px 20px 56px}
@@ -33,9 +34,25 @@
   header.hero p{margin:4px 0;color:#d6e6ff;font-size:15px}
   .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 12px;font-size:12.5px;margin-right:8px;margin-top:10px}
   nav.toc{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-  nav.toc .inner{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px;padding:10px 20px}
-  nav.toc a{color:var(--muted);text-decoration:none;font-size:13.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
-  nav.toc a:hover{color:var(--blue);border-color:var(--blue);background:var(--info-bg)}
+  nav.toc .bar{display:flex;align-items:center;justify-content:space-between;height:50px;max-width:1080px;margin:0 auto;padding:0 12px}
+  nav.toc .brand{font-size:15px;font-weight:600;color:var(--blue-dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  nav.toc .hamburger{width:42px;height:42px;flex:0 0 42px;border:none;background:none;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:9px;margin-right:-6px}
+  nav.toc .hamburger span{display:block;height:2.5px;width:100%;background:var(--blue-dark);border-radius:3px;transition:transform .25s ease,opacity .2s ease}
+  nav.toc .hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  nav.toc .hamburger.open span:nth-child(2){opacity:0}
+  nav.toc .hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+  nav.toc .backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:50;opacity:0;visibility:hidden;transition:opacity .28s ease}
+  nav.toc .backdrop.show{opacity:1;visibility:visible}
+  nav.toc .panel{position:fixed;top:0;left:0;bottom:0;width:80%;max-width:330px;background:#fff;z-index:60;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .3s ease;box-shadow:none}
+  nav.toc .panel.open{transform:translateX(0);box-shadow:4px 0 28px rgba(0,0,0,.2)}
+  nav.toc .panel-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line);font-size:16px;font-weight:700;color:var(--blue-dark)}
+  nav.toc .panel-close{background:none;border:none;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
+  nav.toc .inner{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:8px 10px 28px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+  nav.toc a{color:var(--muted);text-decoration:none;font-size:14.5px;padding:12px 14px;border-radius:9px;border:1px solid transparent;line-height:1.35}
+  nav.toc a.sub{font-size:13px;color:var(--blue-dark);background:#f5f8fc;margin:2px 0;padding:10px 14px 10px 26px}
+  nav.toc a.active{background:var(--blue);color:#fff}
+  nav.toc a.sub.active{background:var(--blue);color:#fff}
+  nav.toc a:hover{color:var(--blue);background:var(--info-bg)}
   section{margin-top:44px}
   h2{font-size:23px;margin:0 0 6px;padding-bottom:10px;border-bottom:3px solid var(--blue);display:inline-block}
   h2 .no{color:var(--blue);margin-right:10px;font-weight:700}
@@ -63,9 +80,10 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   @media(max-width:760px){
     .grid2{grid-template-columns:1fr}
-    .wrap{padding-left:14px;padding-right:14px}
-    header.hero{padding-left:14px;padding-right:14px}
-    nav.toc .inner{padding-left:14px;padding-right:14px}
+    .wrap{padding-left:10px;padding-right:10px}
+    header.hero{padding-left:10px;padding-right:10px}
+    nav.toc .panel{width:84%}
+    nav.toc a{padding:13px 14px}
   }
   ul,ol{padding-left:24px;margin:10px 0}
   li{margin:5px 0}
@@ -89,15 +107,57 @@
 </header>
 
 <nav class="toc">
-  <div class="inner">
-    <a href="#s1">1 安全须知</a>
-    <a href="#s2">2 电气系统总览</a>
-    <a href="#s3">3 全车线路总览图</a>
-    <a href="#s4">4 线路功能点详解</a>
-    <a href="#s5">5 线色与线径标准</a>
-    <a href="#s6">6 故障排查</a>
-    <a href="#s7">7 维修流程与工具</a>
+  <div class="bar">
+    <span class="brand">两轮电动车 · 电气系统图解</span>
+    <button class="hamburger" id="tocToggle" type="button" aria-label="打开目录" aria-expanded="false" aria-controls="tocPanel">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  <div class="backdrop" id="tocBackdrop"></div>
+  <aside class="panel" id="tocPanel" aria-hidden="true">
+    <div class="panel-head">
+      <span>目录导航</span>
+      <button class="panel-close" id="tocClose" type="button" aria-label="关闭目录">&times;</button>
+    </div>
+    <div class="inner">
+      <a href="#s1">1 安全须知</a>
+      <a href="#s2">2 电气总览</a>
+      <a href="#s3">3 线路图</a>
+      <a href="#s4">4 功能点详解</a>
+      <a href="#s5">5 线色线径</a>
+      <a href="#s6">6 故障排查</a>
+      <a href="#s7">7 维修流程</a>
+      <a href="#s2-1" class="sub">·2.1 三大回路</a>
+      <a href="#s2-2" class="sub">·2.2 上电流程</a>
+      <a href="#s4-1" class="sub">·4.1 电池/充电</a>
+      <a href="#s4-2" class="sub">·4.2 控制器接口</a>
+      <a href="#s4-3" class="sub">·4.3 电机/霍尔</a>
+      <a href="#s4-4" class="sub">·4.4 转把</a>
+      <a href="#s4-5" class="sub">·4.5 刹车断电</a>
+      <a href="#s4-6" class="sub">·4.6 电门锁</a>
+      <a href="#s4-7" class="sub">·4.7 DC-DC</a>
+      <a href="#s4-8" class="sub">·4.8 仪表盘</a>
+      <a href="#s4-9" class="sub">·4.9 灯光/手把</a>
+      <a href="#s4-9-1" class="sub">·4.9.1 引脚映射</a>
+      <a href="#s4-9-2" class="sub">·4.9.2 控制逻辑</a>
+      <a href="#s4-9-3" class="sub">·4.9.3 常见故障</a>
+      <a href="#s4-10" class="sub">·4.10 喇叭/充电口</a>
+      <a href="#s5-1" class="sub">·5.1 线色对照</a>
+      <a href="#s5-2" class="sub">·5.2 线径识别</a>
+      <a href="#s5-3" class="sub">·5.3 地线识别</a>
+      <a href="#s5-4" class="sub">·5.4 对插线识别</a>
+      <a href="#s5-4-1" class="sub">·5.4.1 仪表vs灯光</a>
+      <a href="#s5-4-2" class="sub">·5.4.2 能操作把手</a>
+      <a href="#s5-4-2-1" class="sub">·5.4.2.1 逐针流程</a>
+      <a href="#s5-4-3" class="sub">·5.4.3 不能操作把手</a>
+      <a href="#s5-4-3-1" class="sub">·5.4.3.1 通断追线</a>
+      <a href="#s5-4-3-2" class="sub">·5.4.3.2 上电特征</a>
+      <a href="#s5-4-3-3" class="sub">·5.4.3.3 收尾</a>
+      <a href="#s7-1" class="sub">·7.1 必备工具</a>
+      <a href="#s7-2" class="sub">·7.2 排障流程</a>
+      <a href="#s7-3" class="sub">·7.3 维修补充</a>
+    </div>
+  </aside>
 </nav>
 
 <div class="wrap">
@@ -134,7 +194,7 @@
   <h2><span class="no">2</span>两轮电动车电气系统总览</h2>
   <div class="card">
     <p class="lead">一辆标准两轮电动车的电气系统，可以拆成<b>“动力主回路”</b>和<b>“控制/信号回路”</b>两大块，外加一条<b>“12V 辅助电源回路”</b>（由 DC-DC 转换器从动力电池降压而来）。理解这三条回路的边界，是读懂全车线路的关键。</p>
-    <h3>2.1 三大回路划分</h3>
+    <h3 id="s2-1">2.1 三大回路划分</h3>
     <table>
       <thead><tr><th>回路</th><th>电压</th><th>典型电流</th><th>包含部件</th></tr></thead>
       <tbody>
@@ -144,7 +204,7 @@
       </tbody>
     </table>
     <p class="lead"><b>共地（GND）：</b>三大回路的负极是<b>同一条地</b>——电池负极、控制器 B−、DC 转换器 GND、信号地、灯具负极全部等电位（0V）。图中黑色线即地线，灯具等负载端用三横线<b>接地符号</b>标注。识别方法见 <a href="#s5">第 5.3 节</a>。</p>
-    <h3>2.2 上电流程（理解故障的关键）</h3>
+    <h3 id="s2-2">2.2 上电流程（理解故障的关键）</h3>
     <ol>
       <li>电池正极（粗红）→ 保险丝 → 进入控制器 <code>B+</code> 主电源端。</li>
       <li>保险丝后分出一根<b>细红</b>到<b>电门锁</b>进线（受保险丝保护，钥匙 OFF 无电）。</li>
@@ -614,7 +674,7 @@
 
   <!-- 4.1 电池组 -->
   <div class="card">
-    <h3>4.1 电池组与充电回路</h3>
+    <h3 id="s4-1">4.1 电池组与充电回路</h3>
     <table>
       <thead><tr><th>端子</th><th>线色(常见)</th><th>功能</th><th>说明</th></tr></thead>
       <tbody>
@@ -630,7 +690,7 @@
 
   <!-- 4.2 控制器 -->
   <div class="card">
-    <h3>4.2 控制器（整车电气核心）—— 接口引脚详解</h3>
+    <h3 id="s4-2">4.2 控制器（整车电气核心）—— 接口引脚详解</h3>
     <p>控制器是无刷电机的“大脑”，内部为 MOSFET 三相桥 + MCU。下面把它的每一个接口按<b>功能组</b>拆开讲。</p>
     <div class="callout info">
       <b>接口归属判断：哪些线进控制器，哪些不进？</b>
@@ -752,7 +812,7 @@
 
   <!-- 4.3 电机与霍尔 -->
   <div class="card">
-    <h3>4.3 无刷电机与霍尔传感器</h3>
+    <h3 id="s4-3">4.3 无刷电机与霍尔传感器</h3>
     <p>无刷电机没有碳刷，靠控制器依据<b>霍尔位置信号</b>来切换三相电流方向实现旋转。</p>
     <table>
       <thead><tr><th>线路</th><th>线色</th><th>线径</th><th>功能</th></tr></thead>
@@ -810,7 +870,7 @@
 
   <!-- 4.4 转把 -->
   <div class="card">
-    <h3>4.4 转把（霍尔调速把）</h3>
+    <h3 id="s4-4">4.4 转把（霍尔调速把）</h3>
     <table>
       <thead><tr><th>线色</th><th>功能</th><th>参考电压</th></tr></thead>
       <tbody>
@@ -824,7 +884,7 @@
 
   <!-- 4.5 刹车断电 -->
   <div class="card">
-    <h3>4.5 刹车断电（制动信号）</h3>
+    <h3 id="s4-5">4.5 刹车断电（制动信号）</h3>
     <table>
       <thead><tr><th>类型</th><th>触发方式</th><th>接线</th><th>说明</th></tr></thead>
       <tbody>
@@ -840,7 +900,7 @@
 
   <!-- 4.6 电门锁 -->
   <div class="card">
-    <h3>4.6 电门锁（钥匙开关）</h3>
+    <h3 id="s4-6">4.6 电门锁（钥匙开关）</h3>
     <table>
       <thead><tr><th>端子</th><th>线色</th><th>说明</th></tr></thead>
       <tbody>
@@ -853,7 +913,7 @@
 
   <!-- 4.7 DC转换器 -->
   <div class="card">
-    <h3>4.7 DC-DC 转换器（48V→12V）</h3>
+    <h3 id="s4-7">4.7 DC-DC 转换器（48V→12V）</h3>
     <table>
       <thead><tr><th>端子</th><th>线色</th><th>功能</th></tr></thead>
       <tbody>
@@ -868,7 +928,7 @@
 
   <!-- 4.8 仪表 -->
   <div class="card">
-    <h3>4.8 仪表盘</h3>
+    <h3 id="s4-8">4.8 仪表盘</h3>
     <table>
       <thead><tr><th>功能</th><th>信号来源</th><th>说明</th></tr></thead>
       <tbody>
@@ -882,7 +942,7 @@
 
   <!-- 4.9 灯光与手把控制 -->
   <div class="card">
-    <h3>4.9 灯光系统与手把控制线路</h3>
+    <h3 id="s4-9">4.9 灯光系统与手把控制线路</h3>
     <p>灯光、转向、喇叭、三速等控制都集中在<b>手把组合开关</b>上，全部走 12V（三速为 5V 信号级）。控制逻辑分两类：<b>串联开关</b>（开关串在电源与负载之间）和<b>对地短接</b>（开关把信号线拉低）。</p>
     <table>
       <thead><tr><th>开关 / 部件</th><th>回路电压</th><th>控制逻辑</th><th>说明</th></tr></thead>
@@ -897,7 +957,7 @@
       </tbody>
     </table>
 
-    <h4>4.9.1 手把开关引脚与接线映射（对应图 1）</h4>
+    <h4 id="s4-9-1">4.9.1 手把开关引脚与接线映射（对应图 1）</h4>
     <p>手把组合开关对外只有“进线”和“出线”两组接口。接线的关键是：<b>每个引脚去哪、受哪个开关控制、是什么控制逻辑</b>。下表按图 1 中引脚从左到右列出（实际车型线色/顺序以车厂线束图为准，线色含义见 5.1）：</p>
     <table style="table-layout:fixed">
       <colgroup>
@@ -918,7 +978,7 @@
       </tbody>
     </table>
 
-    <h4>4.9.2 内部接线原理：两类控制逻辑</h4>
+    <h4 id="s4-9-2">4.9.2 内部接线原理：两类控制逻辑</h4>
     <p>手把开关内部本质是一个“把 12V+ 母线按需分配到各负载引脚”的配电盒（图 1 模块内已用虚线画出 12V+ 母线与总闸），按控制逻辑分两类：</p>
     <ul>
       <li><b>串联开关（电源型）</b>：12V+ 进线 → <b>灯光总开关（总闸）</b> → 分两路：
@@ -936,7 +996,7 @@
       </li>
     </ul>
 
-    <h4>4.9.3 手把开关接线常见故障</h4>
+    <h4 id="s4-9-3">4.9.3 手把开关接线常见故障</h4>
     <ul>
       <li><b>灯光全不亮但车能跑</b>：先查 DC-DC 12V 输出，再查手把 12V+ 进线（橙）是否松脱；总开关坏则远近光 + 尾灯同时不亮。</li>
       <li><b>只有远光或只有近光</b>：远近光开关或对应引脚 / 灯丝断路。</li>
@@ -949,7 +1009,7 @@
 
   <!-- 4.10 其他 -->
   <div class="card">
-    <h3>4.10 喇叭 / 防盗器 / 充电口</h3>
+    <h3 id="s4-10">4.10 喇叭 / 防盗器 / 充电口</h3>
     <ul>
       <li><b>喇叭</b>：12V 供电，手把按钮一端接地控制。不响查 12V、按钮通断、喇叭本体。</li>
       <li><b>防盗报警器</b>：接电池常电（不断电）+ 控制器锁电机线 + 震动传感器。遥控上锁后，多通过<b>控制器专用防盗/锁电机接口（锁电机线）</b>使能：控制器收到锁止信号后让电机三相短路或输出堵转，电机被"电抱死"、推车有阻力并报警。<b>少数车型会复用刹车断电线或学习线</b>，具体以该控制器定义为准。</li>
@@ -963,7 +1023,7 @@
   <h2><span class="no">5</span>线路颜色与线径识别标准</h2>
   <div class="card">
     <p class="lead">国产电动车线色<b>没有强制国标</b>，但行业惯例高度一致。以下为最常见的对照表，<b>维修时务必以万用表核实</b>，切勿仅凭颜色盲接。</p>
-    <h3>5.1 常见线色对照</h3>
+    <h3 id="s5-1">5.1 常见线色对照</h3>
     <table>
       <thead><tr><th>线色</th><th>常见功能</th><th>电压/信号</th></tr></thead>
       <tbody>
@@ -987,7 +1047,7 @@
       <b>橙色线注意</b>
       橙色在本图中表示<b>“锁后电压”</b>：它可能是电门锁后的 <b>电池级电压</b>（48/60/72V，随电池组规格，如给 DC 转换器、控制器电门锁线供电），也可能是 <b>12V</b>（如 12V 主线、灯光/喇叭）。<b>电门锁线不是 12V 也不是 5V</b>，而是锁后电池电压，钥匙拧开后才出现。同一根橙线到底几伏，要看它处在哪条回路，不能仅凭颜色判断电压。
     </div>
-    <h3>5.2 线径识别（判断回路类型）</h3>
+    <h3 id="s5-2">5.2 线径识别（判断回路类型）</h3>
     <table>
       <thead><tr><th>线径</th><th>典型用途</th><th>承载电流</th></tr></thead>
       <tbody>
@@ -1001,7 +1061,7 @@
       替换线路时，新线线径<b>只能大于等于</b>原线，尤其是电机三相和电池主线，线径过细会发热起火。低压信号线注意屏蔽与远离大电流线，防止电磁干扰导致转把/霍尔误动作。
     </div>
 
-    <h3>5.3 负极 / 地线（GND）识别方法</h3>
+    <h3 id="s5-3">5.3 负极 / 地线（GND）识别方法</h3>
     <p class="lead">两轮电动车采用<b>全车共地</b>：电池负极、控制器 B−、DC 转换器 GND、转把/霍尔 GND、所有灯具负极都是<b>同一电位（0V）</b>，在接线图中用三横线<b>接地符号</b>标注。本图按<b>“负极通过线束回到电池负极”</b>模型绘制（绝大多数车型）；少数车型把车架金属当作回路线（即“负极搭铁”），此时黑线直接拧在车架螺丝上。识别一根线是不是地线，按下面 4 招顺序来：</p>
     <table>
       <thead><tr><th>方法</th><th>操作</th><th>判断</th></tr></thead>
@@ -1017,7 +1077,7 @@
       ① 全车<b>黑线互相导通</b>是正常现象（共地），测量始终以<b>电池负极为基准</b>最可靠；② 地线断开 = 信号回路悬空，表现为仪表乱跳、转把无反应、灯光不亮，却<b>查不到保险丝熔断</b>——这类“隐性断路”重点查黑线插头是否松动、氧化；③ 不要在地线上串保险丝或开关，否则会破坏共地。
     </div>
 
-    <h3>5.4 车头对插线（对接接口）拆开后的引脚识别</h3>
+    <h3 id="s5-4">5.4 车头对插线（对接接口）拆开后的引脚识别</h3>
     <p class="lead">整车往往只有一个大对接点，把<b>车头部分</b>（转把、刹车把、仪表、灯光、手把开关）与<b>车身主线</b>（控制器、电池）连起来，俗称<b>车头线 / 对插线 / 对接线</b>。一旦所有接口都拆开、又找不到原厂线序图，就要靠<b>万用表通断档</b>把“车头端的针”逐一对应到具体设备。原则是：把车头某针与设备某线用通断档一对一测，<b>蜂鸣 = 连通</b>。</p>
     <p class="lead">针数往往有十几到几十根，逐根盲测很慢。推荐<b>“先分大类、再对设备”</b>的顺序：</p>
     <ol>
@@ -1047,7 +1107,7 @@
       </li>
       <li><b>加电点亮法（仅 12V 负载）</b>：复原电池、钥匙 ON，用试灯或逐一短接 12V 针到负载针，看哪盏灯亮，直接确定针 ↔ 灯对应关系。<b>5V 类信号线严禁乱加电压，会烧控制器。</b></li>
     </ol>
-    <h4>5.4.1 仪表针 与 灯光 / 喇叭针 怎样区分</h4>
+    <h4 id="s5-4-1">5.4.1 仪表针 与 灯光 / 喇叭针 怎样区分</h4>
     <p class="lead">两者都接在同一条 12V+ 母线上（并联，见 5.4 第 3 步），单看"是不是 12V"分不出来。真正的区分点在<b>非电源针的性质</b>——仪表多为<b>高阻信号线</b>，灯光/喇叭多为<b>低阻负载线</b>：</p>
     <table>
       <thead><tr><th>判别项</th><th>仪表相关针</th><th>灯光 / 喇叭 / 转向针</th></tr></thead>
@@ -1073,7 +1133,7 @@
       </tbody>
     </table>
 
-    <h4>5.4.2 场景 A（能操作把手）：9 孔 8 线头的逐针识别</h4>
+    <h4 id="s5-4-2">5.4.2 场景 A（能操作把手）：9 孔 8 线头的逐针识别</h4>
     <p class="lead">左右手把集成开关对外通常用一颗<b>9 孔 8 线</b>插头：9 个针位只插了 8 根线，<b>留 1 个空孔做定位/防呆</b>（插反插不进去）。它把 12V 电源、地、以及灯光/转向/喇叭/刹车等开关信号全打包进这一颗头，连到车头主线。本节是<b>场景 A（能操作把手）</b>；若插头拆开后<b>操作不了把手</b>，直接跳到 <b>5.4.3 场景 B</b>。下面先给一张常见线色排布示意，再给"不靠颜色、用万用表认针"的流程。</p>
 
     <figure class="fig">
@@ -1135,7 +1195,7 @@
       上图是业内"通用型"手把最常见的线色顺序，但<b>并非统一标准</b>：空孔位置、线色、孔序各厂都不同（比如有的把刹车做成蓝/绿、喇叭做成白/灰）。<b>即使在本教程内也如此</b>：本图把棕=喇叭、橙=右刹车，而 5.1 线色表里棕=刹车灯/巡航、橙=锁后/12V——两处取自不同线束的常见惯例，正好说明"线色随线束而异"。换车、换件时必须用万用表实测，<b>切勿只凭颜色对插</b>——尤其是 brake/horn 这类低电平信号线接反不会冒烟，但会让你误判故障。
     </div>
 
-    <h4>5.4.2.1 逐针流程：捏刹 / 拨转向 / 按喇叭，看每根针怎么变</h4>
+    <h4 id="s5-4-2-1">5.4.2.1 逐针流程：捏刹 / 拨转向 / 按喇叭，看每根针怎么变</h4>
     <p class="lead">按下面顺序来，每一步只认"电压/通断的变化"，不猜颜色。工具：万用表（通断档 + 直流电压档）。<b>测通断必须断电、电池主负已断开</b>。</p>
     <table>
       <thead><tr><th>目标线</th><th>怎么做</th><th>判定信号</th></tr></thead>
@@ -1157,10 +1217,10 @@
       <b>一句口诀</b>：先定地、再找 12V 电；刹车看"捏把变电平"，转向看"开关跳通断"，大灯/喇叭看"拨/按才通"。颜色只是线索，<b>万用表实测才算数</b>。
     </div>
 
-    <h4>5.4.3 场景 B（不能操作把手）：靠"通断追线 + 上电特征"识别</h4>
+    <h4 id="s5-4-3">5.4.3 场景 B（不能操作把手）：靠"通断追线 + 上电特征"识别</h4>
     <p class="lead">插头拆开、又<b>操作不了把手</b>（开关总成已拆下、车把不在、或够不到）时，5.4.2 的"操作变化法"用不上。改用两条思路：<b>通断追线到已知器件</b> + <b>上电电压特征</b>。</p>
 
-    <h4>5.4.3.1 核心：逐根"通断追线"到器件端子（不操作开关也能做）</h4>
+    <h4 id="s5-4-3-1">5.4.3.1 核心：逐根"通断追线"到器件端子（不操作开关也能做）</h4>
     <p class="lead">先按 5.4.2 ①② 定出 <b>GND / 12V</b>（这两步本来就不碰把手），再对剩余信号线用"通断追线"定位："操作开关"本质上只是让某根线<b>临时接通</b>来暴露身份；更直接的是——插头已拆开，每根线都能从插头端一路量到它真正的<b>目的地</b>。哪怕不捏刹、不拨转向，刹把 / 转向开关 / 喇叭 / 大灯的<b>本体或线束还在车上</b>，用通断档量"插头针 ↔ 目标端子"是否同一条线即可判定，全程不用动一下把手。</p>
 
     <div class="callout info">
@@ -1214,7 +1274,7 @@
     </table>
     <p><b>技巧：</b>拆开那一刻就给 8 根线贴 <b>1–8 号标签</b>（号码管 / 胶带），再逐根"插头针 ↔ 目标端子"通断，命中即命名；GND/12V 已定，剩下逐根命中即可。</p>
 
-    <h4>5.4.3.2 兜底：上电电压特征（目标器件也够不到时）</h4>
+    <h4 id="s5-4-3-2">5.4.3.2 兜底：上电电压特征（目标器件也够不到时）</h4>
     <p>手头只有这束线、整车 / 器件都不在旁边、做不了追线时，可用"钥匙 ON、插头仍断开"时的<b>上电特征</b>预筛。先分清两类针：</p>
     <ul>
       <li><b>控制器输入型信号针</b>（刹车 / 三速 / 巡航等）：控制器对它们有<b>内部上拉</b>——多数读到<b>高电平</b>（常见 5V 或 12V，看车型），个别（开关接 12V 型、共阳设计）= <b>0V</b>。</li>
@@ -1223,7 +1283,7 @@
       <li>顺带排除"真地"：真 <b>GND 针 ↔ 电池负极 ≈ 0Ω</b>，而开关信号线对 GND 常态<b>开路 / 大阻值</b>（开关内是常开微动），据此先圈出信号线。</li>
     </ul>
 
-    <h4>5.4.3.3 仍分不清时怎么收尾</h4>
+    <h4 id="s5-4-3-3">5.4.3.3 仍分不清时怎么收尾</h4>
     <ul>
       <li><b>装回后"对调验证"</b>：左右转向、左右刹车是两对"高电平信号线"，拆开时若实在分不清，装回后看现象——转向 / 刹车左右反了，就对调那两根。属装回验证，不是拆开判定。</li>
       <li><b>诚实局限</b>：若只有拆下的线束、整车不在旁边（无电池、无器件可追），没有操作条件时<b>无法 100% 定名</b>，只能按标准线色 / 孔位给出"最可能"假设，装车后用追线或 5.4.2 的操作法最终确认。</li>
@@ -1267,7 +1327,7 @@
 <section id="s7">
   <h2><span class="no">7</span>维修流程与工具清单</h2>
   <div class="card">
-    <h3>7.1 必备工具</h3>
+    <h3 id="s7-1">7.1 必备工具</h3>
     <ul>
       <li><b>万用表</b>（直流电压、通断、电阻档，建议自动量程）—— 排线第一工具</li>
       <li>螺丝刀组（十字/一字/内六角）、套筒扳手</li>
@@ -1275,7 +1335,7 @@
       <li>剥线钳、压线钳、接线端子/安德森插头</li>
       <li>绝缘手套（拆主线时）</li>
     </ul>
-    <h3>7.2 标准排障流程</h3>
+    <h3 id="s7-2">7.2 标准排障流程</h3>
     <ol>
       <li><b>断电</b>：关钥匙、拔电池主插头。</li>
       <li><b>观察</b>：线束有无烧焦、破皮、进水、氧化、松动、异味。</li>
@@ -1293,7 +1353,7 @@
         维修完成后务必<b>固定好线束</b>（扎带），恢复所有防水接头；试车时先架起后轮空转，确认转把、刹车断电、灯光全部正常后再上路。
       </div>
 
-      <h3>7.3 维修补充要点</h3>
+      <h3 id="s7-3">7.3 维修补充要点</h3>
       <ul>
         <li><b>控制器自学习（学习线）</b>：两根白线（或同色对插线）对插后通电，电机<b>空载</b>自动匹配相序与霍尔，运转正常后断开学习线并保存；转向不对可重新对插学习，部分控制器需转把归零或按住刹车学习。</li>
         <li><b>相线与霍尔匹配</b>：更换控制器/电机后若抖动异响，除霍尔损坏外，也可能是三相相序与霍尔相序不匹配。三相 6 种、霍尔 6 种，共 <b>36 种组合</b>，自学习可自动完成；手动则需逐一尝试。</li>
@@ -1308,5 +1368,76 @@
 </footer>
 
 </div>
+<script>
+(function(){
+  // ---- 汉堡抽屉开合 ----
+  var tog = document.getElementById('tocToggle');
+  var panel = document.getElementById('tocPanel');
+  var backdrop = document.getElementById('tocBackdrop');
+  var closeBtn = document.getElementById('tocClose');
+  var inner = panel ? panel.querySelector('.inner') : null;
+  function openDrawer(){
+    if(!panel) return;
+    panel.classList.add('open');
+    backdrop.classList.add('show');
+    tog.classList.add('open');
+    tog.setAttribute('aria-expanded','true');
+    panel.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeDrawer(){
+    if(!panel) return;
+    panel.classList.remove('open');
+    backdrop.classList.remove('show');
+    tog.classList.remove('open');
+    tog.setAttribute('aria-expanded','false');
+    panel.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+  if(tog){
+    tog.addEventListener('click', function(){
+      if(panel.classList.contains('open')) closeDrawer(); else openDrawer();
+    });
+    if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if(backdrop) backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDrawer(); });
+  }
+
+  // ---- 当前章节高亮 + 抽屉内跟随 ----
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+  var map = {};
+  links.forEach(function(a){
+    var id = (a.getAttribute('href')||'').slice(1);
+    var el = id && document.getElementById(id);
+    if(el) map[id] = a;
+  });
+  var ids = Object.keys(map);
+  if(!ids.length) return;
+  function activate(id){
+    links.forEach(function(l){ l.classList.remove('active'); });
+    var a = map[id];
+    if(!a) return;
+    a.classList.add('active');
+    if(panel && panel.classList.contains('open') && inner){
+      var pr = inner.getBoundingClientRect();
+      var ar = a.getBoundingClientRect();
+      inner.scrollTop += (ar.top - pr.top - 12);
+    }
+  }
+  // 点击链接后收起抽屉（让出视野看正文）
+  links.forEach(function(a){
+    a.addEventListener('click', function(){
+      if(panel && panel.classList.contains('open')) setTimeout(closeDrawer, 120);
+    });
+  });
+  if(!('IntersectionObserver' in window)) return; // 老浏览器：仅保留锚点跳转与抽屉开合
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) activate(e.target.id);
+    });
+  }, {rootMargin:'-30% 0px -60% 0px', threshold:0});
+  ids.forEach(function(id){ obs.observe(document.getElementById(id)); });
+})();
+</script>
 </body>
 </html>
