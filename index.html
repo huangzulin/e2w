@@ -51,8 +51,8 @@
   .callout.info{background:var(--info-bg);border:1px solid var(--info-line)}
   .callout>b:first-child{display:block;margin-bottom:6px}
   table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff}
-  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
-  th{background:#f0f5fb;color:var(--blue-dark);font-weight:600;white-space:nowrap}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;word-break:break-word;overflow-wrap:anywhere}
+  th{background:#f0f5fb;color:var(--blue-dark);font-weight:600}
   tr:nth-child(even) td{background:#fafbfc}
   code{font-family:var(--mono);background:#f1f3f5;padding:1px 6px;border-radius:4px;font-size:13px;color:#c7254e}
   .wire{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid rgba(0,0,0,.25)}
@@ -894,7 +894,10 @@
 
     <h4>4.9.1 手把开关引脚与接线映射（对应图 1）</h4>
     <p>手把组合开关对外只有“进线”和“出线”两组接口。接线的关键是：<b>每个引脚去哪、受哪个开关控制、是什么控制逻辑</b>。下表按图 1 中引脚从左到右列出（实际车型线色/顺序以车厂线束图为准，线色含义见 5.1）：</p>
-    <table>
+    <table style="table-layout:fixed">
+      <colgroup>
+        <col style="width:18%"><col style="width:22%"><col style="width:30%"><col style="width:15%"><col style="width:15%">
+      </colgroup>
       <thead><tr><th>引脚 / 接口</th><th>受控开关</th><th>去向（负载）</th><th>回路电压</th><th>控制逻辑</th></tr></thead>
       <tbody>
         <tr><td>12V+ 进线</td><td>—</td><td>来自 DC-DC 转换器的 12V 主线（锁后 12V）</td><td>12V</td><td>供电母线</td></tr>
