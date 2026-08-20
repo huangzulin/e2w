@@ -67,7 +67,7 @@
   .callout.danger{background:var(--danger-bg);border:1px solid var(--danger-line)}
   .callout.info{background:var(--info-bg);border:1px solid var(--info-line)}
   .callout>b:first-child{display:block;margin-bottom:6px}
-  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff;display:block;overflow-x:auto}
   th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;word-break:break-word;overflow-wrap:anywhere}
   th{background:#f0f5fb;color:var(--blue-dark);font-weight:600}
   tr:nth-child(even) td{background:#fafbfc}
@@ -134,44 +134,44 @@
       <span>目录导航</span>
       <button class="panel-close" id="tocClose" type="button" aria-label="关闭目录">&times;</button>
     </div>
-    <div class="inner">
+      <div class="inner">
       <a href="#s1">1 安全须知</a>
       <a href="#s2">2 电气总览</a>
-      <a href="#s2-1" class="sub">·2.1 三大回路</a>
+      <a href="#s2-1" class="sub">·2.1 三大回路划分</a>
       <a href="#s2-2" class="sub">·2.2 上电流程</a>
-      <a href="#s3">3 线路图</a>
-      <a href="#s4">4 功能点详解</a>
-      <a href="#s4-1" class="sub">·4.1 电池/充电</a>
-      <a href="#s4-2" class="sub">·4.2 控制器接口</a>
-      <a href="#s4-3" class="sub">·4.3 电机/霍尔</a>
+      <a href="#s3">3 全车线路总览图</a>
+      <a href="#s4">4 核心部件功能点详解</a>
+      <a href="#s4-1" class="sub">·4.1 电池组与充电</a>
+      <a href="#s4-2" class="sub">·4.2 控制器接口详解</a>
+      <a href="#s4-3" class="sub">·4.3 电机与霍尔</a>
       <a href="#s4-4" class="sub">·4.4 转把</a>
       <a href="#s4-5" class="sub">·4.5 刹车断电</a>
       <a href="#s4-6" class="sub">·4.6 电门锁</a>
-      <a href="#s4-7" class="sub">·4.7 DC-DC</a>
+      <a href="#s4-7" class="sub">·4.7 DC-DC 转换器</a>
       <a href="#s4-8" class="sub">·4.8 仪表盘</a>
-      <a href="#s4-9" class="sub">·4.9 灯光/手把</a>
-      <a href="#s4-9-1" class="sub">·4.9.1 引脚映射</a>
-      <a href="#s4-9-2" class="sub">·4.9.2 控制逻辑</a>
-      <a href="#s4-9-3" class="sub">·4.9.3 常见故障</a>
-      <a href="#s4-10" class="sub">·4.10 喇叭/充电口</a>
-      <a href="#s5">5 线色线径</a>
-      <a href="#s5-1" class="sub">·5.1 线色对照</a>
+      <a href="#s4-9" class="sub">·4.9 灯光与手把控制</a>
+      <a href="#s4-9-1" class="sub">·4.9.1 手把开关引脚映射</a>
+      <a href="#s4-9-2" class="sub">·4.9.2 两类控制逻辑</a>
+      <a href="#s4-9-3" class="sub">·4.9.3 手把开关常见故障</a>
+      <a href="#s4-10" class="sub">·4.10 喇叭/防盗/充电口</a>
+      <a href="#s5">5 线色与线径</a>
+      <a href="#s5-1" class="sub">·5.1 常见线色对照</a>
       <a href="#s5-2" class="sub">·5.2 线径识别</a>
-      <a href="#s5-3" class="sub">·5.3 地线识别</a>
-      <a href="#s5-4" class="sub">·5.4 对插线识别</a>
-      <a href="#s5-4-1" class="sub">·5.4.1 仪表vs灯光</a>
-      <a href="#s5-4-2" class="sub">·5.4.2 能操作把手</a>
-      <a href="#s5-4-2-1" class="sub">·5.4.2.1 逐针流程</a>
-      <a href="#s5-4-3" class="sub">·5.4.3 不能操作把手</a>
-      <a href="#s5-4-3-1" class="sub">·5.4.3.1 通断追线</a>
-      <a href="#s5-4-3-2" class="sub">·5.4.3.2 上电特征</a>
-      <a href="#s5-4-3-3" class="sub">·5.4.3.3 收尾</a>
-      <a href="#s6">6 故障排查</a>
-      <a href="#s7">7 维修流程</a>
+      <a href="#s5-3" class="sub">·5.3 负极地线识别</a>
+      <a href="#s5-4" class="sub">·5.4 车头对插线识别</a>
+      <a href="#s5-4-1" class="sub">·5.4.1 仪表针 vs 灯/喇叭针</a>
+      <a href="#s5-4-2" class="sub">·5.4.2 能操作把手（场景A）</a>
+      <a href="#s5-4-2-1" class="sub">·5.4.2.1 逐针识别流程</a>
+      <a href="#s5-4-3" class="sub">·5.4.3 不能操作把手（场景B）</a>
+      <a href="#s5-4-3-1" class="sub">·5.4.3.1 通断追线到器件</a>
+      <a href="#s5-4-3-2" class="sub">·5.4.3.2 上电电压特征</a>
+      <a href="#s5-4-3-3" class="sub">·5.4.3.3 分不清时收尾</a>
+      <a href="#s6">6 故障排查表</a>
+      <a href="#s7">7 维修流程与工具</a>
       <a href="#s7-1" class="sub">·7.1 必备工具</a>
-      <a href="#s7-2" class="sub">·7.2 排障流程</a>
-      <a href="#s7-3" class="sub">·7.3 维修补充</a>
-    </div>
+      <a href="#s7-2" class="sub">·7.2 标准排障流程</a>
+      <a href="#s7-3" class="sub">·7.3 维修补充要点</a>
+      </div>
   </aside>
 </nav>
 
@@ -407,14 +407,14 @@
           <circle cx="280" cy="200" r="4" fill="#f9a825"/>
           <circle cx="360" cy="200" r="4" fill="#7cb342"/>
           <circle cx="420" cy="200" r="4" fill="#00897b"/>
-          <circle cx="490" cy="200" r="4" fill="#5c6bc0"/>
+          <circle cx="490" cy="200" r="4" fill="#43a047"/>
           <text x="70" y="190" fill="#1565c0" font-size="10.5" text-anchor="middle">远光</text>
           <text x="130" y="190" fill="#1565c0" font-size="10.5" text-anchor="middle">近光</text>
           <text x="215" y="190" fill="#6d4c41" font-size="10.5" text-anchor="middle">尾灯</text>
           <text x="280" y="190" fill="#b28704" font-size="10.5" text-anchor="middle">转左</text>
           <text x="360" y="190" fill="#558b2f" font-size="10.5" text-anchor="middle">转右</text>
           <text x="420" y="190" fill="#00695c" font-size="10.5" text-anchor="middle">喇叭</text>
-          <text x="490" y="190" fill="#3949ab" font-size="10.5" text-anchor="middle">三速</text>
+          <text x="490" y="190" fill="#2e7d32" font-size="10.5" text-anchor="middle">三速</text>
           <use href="#ground" x="497" y="172"/>
           <text x="497" y="160" fill="#455a64" font-size="10.5" text-anchor="middle">内部开关对地</text>
           <!-- 细化：12V+ 内部母线与总闸，体现开关内部分配 -->
@@ -1276,6 +1276,22 @@
       <li>表<b>蜂鸣 / ≈0Ω</b> → 说明 3 号针和这个端子是<b>同一条线</b>，3 号针 = 左转向；不响 → 换下一个疑似端子再点，直到命中。</li>
     </ol>
 
+    <p><b>为什么"只有一根会响"</b>：8 根线各自通到车上不同地方，只有那一根真正连到目标设备；其余 7 根和它是不同导体，表里就是断路、不响。所以"谁响谁就是"——红笔钉在针上别松，黑笔去车上挨个设备点，点到哪个设备"嘀"一声，这根针就属于它。</p>
+
+    <p><b>为什么有的线能"直接追到灯"、有的不行 —— 三类手把开关</b></p>
+    <p>追线时会遇到相反两种情况：大灯/转向一追就响到灯，刹车/喇叭却怎么都响不到刹车灯。差别在<b>开关焊在线的哪一段</b>。手把上的开关基本分三类：</p>
+    <table>
+      <thead><tr><th>开关类型</th><th>电路位置</th><th>插头拆开、不操作时</th><th>追线该追到哪</th></tr></thead>
+      <tbody>
+        <tr><td><b>大灯 / 转向</b><br>（开关输出型负载）</td><td>开关管的是 <b>12V 供电</b>通断，在"针的上游"；针到灯之间是一整根直通线</td><td>针 ↔ 灯 <b>直通，能蜂鸣</b></td><td>直接追到<b>灯插头</b>（近/远光、左/右转向灯）</td></tr>
+        <tr><td><b>刹车 / 喇叭</b><br>（控制器输入型·常开微动）</td><td>微动开关<b>串在信号线本身</b>里（针 → 微动 → 地/负载），平时（不按）断开</td><td>针 ↔ 灯/负载<b>被开关切断，不响</b></td><td>追到微动开关<b>针侧那根接线柱</b>（这一段直通，会响）</td></tr>
+        <tr><td><b>三速</b><br>（控制器输入型·多档选择）</td><td>旋转/拨动开关把各档速度线接到公共端（地/5V），也是串在信号线里</td><td>针 ↔ 控制器速度端子<b>被开关切断，不响</b></td><td>追到三速开关<b>各档位 / 公共端接线柱</b>（多根针分别对应各档）</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <b>刹车/喇叭为何"追不到刹车灯"却仍要追微动开关？</b> 微动开关串在针和地之间，不捏就不通，从针去追刹车灯会一直不响——这是正常的，<b>别误判"这根针不是刹车线"</b>。正确做法是追到微动开关上"针直接连的那侧接线柱"（这一段直通同根、会响），响就证明"这根针连的是这个刹把"，身份即认定。9 孔插头每根针的"身份"本就指它在手把端连的是哪个开关——连到刹把 = 这根针就是刹车线，定名完成，不必非要连到车身的刹车灯。
+    </div>
+
     <table>
       <thead><tr><th>目标线</th><th>通断追到哪（无需操作把手）</th><th>旁证</th></tr></thead>
       <tbody>
@@ -1287,6 +1303,20 @@
         <tr><td>12V 电源</td><td>电门锁后 / DC 转换器输出</td><td>钥匙 ON 才有</td></tr>
       </tbody>
     </table>
+    <p><b>插头拆开，要"两半各追各的"</b></p>
+    <p>插头一拆，整车分成 <b>手把半</b> 和 <b>车身半</b>，中间隔着断开的插头——一根线被从中间切断，单追一半追不到另一半的负载，所以分两头追、再拼起来：</p>
+    <table>
+      <thead><tr><th>半边</th><th>红笔钉哪</th><th>黑笔追到哪</th><th>认定什么</th></tr></thead>
+      <tbody>
+        <tr><td><b>手把半</b><br>（微动/三速开关、插头公头）</td><td>手把端插头针（如 7 号）</td><td>手把上微动/三速开关的<b>针侧接线柱</b></td><td>这根针连的是<b>哪个手把开关</b>（如"左刹把"）</td></tr>
+        <tr><td><b>车身半</b><br>（控制器/灯/地、插头母座）</td><td>车身端插头的对应孔</td><td>控制器速度端子 / 刹车灯 / 转向灯 / 大灯等车身负载</td><td>这根线在车身侧<b>接控制器哪个端子 / 哪个负载</b></td></tr>
+      </tbody>
+    </table>
+    <p>两半针位<b>一一对应</b>（同一根线只是被插头断开）。手把半告诉你"它是什么开关"，车身半告诉你"它最终去控制器/灯哪个点"，拼起来这根线才彻底认清楚。例：手把半确认"针 7 连左刹把"，车身半确认"车身端对应孔接控制器刹车端子" → <b>针 7 = 左刹车断电线 = 接控制器刹车接口</b>。</p>
+    <div class="callout info">
+      <b>三速线在车身半怎么追</b>：红笔钉车身端插头里三速那根孔，黑笔去控制器上点标 <b>S1/S2/S3（或 高/中/低）</b>的速度端子——哪下蜂鸣，这根孔就接控制器的对应档位端子。三速若为<b>多线型</b>（每档一根速度线），车身端有多根三速孔，逐根钉、分别追到控制器对应档位端子；若为<b>单线型</b>（一根速度线 + 手把开关对地选档），车身端只有一根孔，追到控制器唯一的速度线端子。控制器上速度端子常和刹车断电、巡航、学习线混在一小撮细信号线里，<b>无标识时逐根追、别靠颜色猜</b>。要分清"哪根对应几档"，纯情形 B（不操作把手）只能追到"接控制器速度接口"，分清档位需拨档（情形 A）或装车验证（5.4.3.3 对调）。
+    </div>
+
     <p><b>技巧：</b>拆开那一刻就给 8 根线贴 <b>1–8 号标签</b>（号码管 / 胶带），再逐根"插头针 ↔ 目标端子"通断，命中即命名；GND/12V 已定，剩下逐根命中即可。</p>
 
     <h4 id="s5-4-3-2">5.4.3.2 兜底：上电电压特征（目标器件也够不到时）</h4>
