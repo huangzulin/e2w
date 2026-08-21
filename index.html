@@ -104,6 +104,22 @@
   li{margin:5px 0}
   .kbd{font-family:var(--mono);font-size:12.5px;background:#2b3a4a;color:#fff;padding:2px 8px;border-radius:5px}
   footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
+  /* 7.4 / 7.5 重构：检查清单、术语高亮、折叠面板 */
+  .min{margin:6px 0;padding-left:20px}
+  .min li{margin:3px 0;line-height:1.6}
+  .checklist{list-style:none;padding:0;margin:14px 0}
+  .checklist li{position:relative;padding:10px 14px 10px 42px;margin:8px 0;background:#f3f8ff;border:1px solid #cfe3fb;border-radius:10px;font-size:14.5px}
+  .checklist li::before{content:"\2610";position:absolute;left:14px;top:9px;font-size:18px;color:var(--blue)}
+  .checklist li b{color:var(--blue-dark)}
+  .hv{color:var(--red);font-weight:700}
+  .lv{color:var(--orange);font-weight:700}
+  .fold{border:1px solid var(--line);border-radius:10px;margin:12px 0;background:#fff;overflow:hidden}
+  .fold>summary{cursor:pointer;padding:12px 16px;font-weight:600;color:var(--blue-dark);background:#f5f8fc;list-style:none;user-select:none}
+  .fold>summary::-webkit-details-marker{display:none}
+  .fold>summary::before{content:"\25B8  ";color:var(--blue)}
+  .fold[open]>summary::before{content:"\25BE  "}
+  .fold>ul{padding:10px 18px 14px;margin:0}
+  .dev li{margin:7px 0}
 </style>
 </head>
 <body>
@@ -171,6 +187,9 @@
       <a href="#s7-1" class="sub">·7.1 必备工具</a>
       <a href="#s7-2" class="sub">·7.2 标准排障流程</a>
       <a href="#s7-3" class="sub">·7.3 维修补充要点</a>
+      <a href="#s7-4" class="sub">·7.4 换件注意事项</a>
+      <a href="#s7-4-1" class="sub">·7.4.1 各部件流程</a>
+      <a href="#s7-5" class="sub">·7.5 加装常见外设</a>
       </div>
   </aside>
 </nav>
@@ -215,7 +234,7 @@
       <thead><tr><th>回路</th><th>电压</th><th>典型电流</th><th>包含部件</th></tr></thead>
       <tbody>
         <tr><td><b>动力主回路</b></td><td>48~72V</td><td>15~40A（大电流）</td><td>电池组 → 保险丝 → 控制器 B+ → 电机三相<br><span style="color:#78909c;font-size:13px">（电门锁锁线为 mA 级使能信号，不载主电流）</span></td></tr>
-        <tr><td><b>控制/信号回路</b></td><td>5V / 信号级</td><td>mA 级</td><td>转把、刹车断电、霍尔、仪表信号、三速、防盗、巡航；<b>电门锁线（锁线，高压小电流 48/60/72V，非 5V，按高压对待）</b></td></tr>
+        <tr><td><b>控制/信号回路</b></td><td>5V / 信号级</td><td>mA 级</td><td>转把、刹车断电、霍尔、仪表信号、三速、防盗、巡航；<b>电门锁线（锁后，高压小电流 48/60/72V，非 5V，按高压对待）</b></td></tr>
         <tr><td><b>12V 辅助回路</b></td><td>12V</td><td>1~5A</td><td>DC-DC 转换器 → 大灯/转向灯/尾灯/刹车灯/喇叭/仪表供电</td></tr>
       </tbody>
     </table>
@@ -293,7 +312,7 @@
 
         <!-- 5. 电门锁出线 -> 控制器电门锁线（橙） -->
         <path d="M 490 925 L 490 600 L 560 600" stroke="#fb8c00" stroke-width="2.5"/>
-        <text x="482" y="760" fill="#e65100" font-size="12" font-weight="600">锁后线(橙)</text>
+        <text x="482" y="760" fill="#e65100" font-size="12" font-weight="600">锁后线(深橙)</text>
 
         <!-- 6. 充电口 -> 电池 ± 端子（红=+ / 黑=−，与主线共用电池端子） -->
         <path d="M 282 1170 L 282 1040 L 270 1040 L 270 1050" stroke="#e53935" stroke-width="2.5"/>
@@ -302,7 +321,7 @@
         <!-- 7. 电门锁出线分叉 -> DC 输入+（橙） -->
         <path d="M 490 620 L 400 620 Q 380 620 380 600" stroke="#fb8c00" stroke-width="2" marker-end="url(#ar-orange)"/>
         <circle cx="490" cy="620" r="3.2" fill="#fb8c00"/>
-        <text x="430" y="612" fill="#e65100" font-size="12">48V输入</text>
+        <text x="430" y="612" fill="#e65100" font-size="12">48V输入(锁后)</text>
 
         <!-- 8. DC 12V输出 -> 12V主线 -->
         <path d="M 280 560 L 140 560 L 140 45 L 960 45" stroke="#ff9800" stroke-width="2"/>
@@ -520,10 +539,13 @@
 
         <!-- 提示：12V 辅助回路并联关系（移入手把开关下方空档，避开转把3线与三速线） -->
         <g transform="translate(884,258)">
-          <rect x="0" y="0" width="220" height="80" rx="8" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
-          <text x="110" y="26" fill="#2e7d32" font-size="12.5" font-weight="700" text-anchor="middle">12V 辅助回路：负载并联</text>
-          <text x="110" y="48" fill="#558b2f" font-size="11" text-anchor="middle">仪表 / 灯光 / 喇叭 / 闪光器 / 尾灯</text>
-          <text x="110" y="68" fill="#558b2f" font-size="11" text-anchor="middle">各负载 12V 端直连母线；开关只控接地/选通（不经 12V 供电）</text>
+          <rect x="0" y="0" width="160" height="124" rx="8" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1.5"/>
+          <text x="80" y="24" fill="#2e7d32" font-size="12" font-weight="700" text-anchor="middle">12V 辅助回路</text>
+          <text x="80" y="46" fill="#558b2f" font-size="10.5" text-anchor="middle">负载并联（仪表/灯光/</text>
+          <text x="80" y="64" fill="#558b2f" font-size="10.5" text-anchor="middle">喇叭/闪光器/尾灯）</text>
+          <text x="80" y="88" fill="#558b2f" font-size="9.5" text-anchor="middle">各负载 12V 端直连母线</text>
+          <text x="80" y="106" fill="#558b2f" font-size="9.5" text-anchor="middle">开关只控接地 / 选通</text>
+          <text x="80" y="122" fill="#558b2f" font-size="9.5" text-anchor="middle">（不经 12V 供电）</text>
         </g>
 
         <!-- DC转换器 -->
@@ -657,8 +679,8 @@
           <text x="16" y="28" fill="#37474f" font-size="14" font-weight="700">图例</text>
           <line x1="16" y1="46" x2="60" y2="46" stroke="#e53935" stroke-width="4"/><text x="70" y="51" fill="#37474f" font-size="12">主电源 + (48~72V 粗红)</text>
           <line x1="16" y1="68" x2="60" y2="68" stroke="#263238" stroke-width="4"/><text x="70" y="73" fill="#37474f" font-size="12">主电源 − (粗黑)</text>
-          <line x1="16" y1="90" x2="60" y2="90" stroke="#fb8c00" stroke-width="2.5"/><text x="70" y="95" fill="#37474f" font-size="12">电门锁后 / DC输入 (橙)</text>
-          <line x1="16" y1="112" x2="60" y2="112" stroke="#ff9800" stroke-width="2"/><text x="70" y="117" fill="#37474f" font-size="12">12V 主线 (橙)</text>
+          <line x1="16" y1="90" x2="60" y2="90" stroke="#fb8c00" stroke-width="2.5"/><text x="70" y="95" fill="#37474f" font-size="12">电门锁后 / DC输入（深橙，=锁后电池电压）</text>
+          <line x1="16" y1="112" x2="60" y2="112" stroke="#ff9800" stroke-width="2"/><text x="70" y="117" fill="#37474f" font-size="12">12V 主线（亮橙，=12V 辅助）</text>
           <line x1="16" y1="134" x2="60" y2="134" stroke="#f9a825" stroke-width="1.8"/><text x="70" y="139" fill="#37474f" font-size="12">转向控制 (黄/绿)</text>
           <line x1="16" y1="156" x2="60" y2="156" stroke="#1e88e5" stroke-width="1.8"/><text x="70" y="161" fill="#37474f" font-size="12">灯光控制 (蓝) · 喇叭 (青)</text>
           <line x1="16" y1="178" x2="38" y2="178" stroke="#43a047" stroke-width="1.6"/><line x1="38" y1="178" x2="60" y2="178" stroke="#d81b60" stroke-width="1.6"/><text x="70" y="183" fill="#37474f" font-size="12">信号线 (转把/仪表/三速) · 霍尔线(粉)</text>
@@ -720,7 +742,7 @@
       <b>接口归属判断：哪些线进控制器，哪些不进？</b>
       <p>进控制器的只有 4 类：</p>
       <ul>
-        <li><strong>电源</strong>：B+/B−（主供电）、电门锁线（锁线，电压 = 锁后电池电压 48/60/72V，随电池组规格变化，并非 12V 或 5V）</li>
+        <li><strong>电源</strong>：B+/B−（主供电）、电门锁线（锁后，电压 = 锁后电池电压 48/60/72V，随电池组规格变化，并非 12V 或 5V）</li>
         <li><strong>电机驱动</strong>：三相、霍尔</li>
         <li><strong>操控信号</strong>：转把、刹车断电、三速</li>
         <li><strong>辅助</strong>：仪表速度信号、防盗、巡航、学习</li>
@@ -1056,22 +1078,22 @@
     <p class="lead">国产电动车线色<b>没有强制国标</b>，但行业惯例高度一致。以下为最常见的对照表，<b>维修时务必以万用表核实</b>，切勿仅凭颜色盲接。</p>
     <h3 id="s5-1">5.1 常见线色对照</h3>
     <table>
-      <thead><tr><th>线色</th><th>常见功能</th><th>电压/信号</th></tr></thead>
+      <thead><tr><th>线色</th><th>常见功能</th><th>电压/信号</th><th>回路类型</th></tr></thead>
       <tbody>
-        <tr><td><span class="wire" style="background:#e53935"></span>红（粗）</td><td>主电源正极 B+</td><td>48~72V</td></tr>
-        <tr><td><span class="wire" style="background:#263238"></span>黑（粗）</td><td>主电源负极 B− / 全车地</td><td>0V</td></tr>
-        <tr><td><span class="wire" style="background:#e53935"></span>红（细）</td><td>电门锁前电源 / +5V 供电</td><td>48V 或 5V</td></tr>
-        <tr><td><span class="wire" style="background:#fb8c00"></span>橙</td><td>电门锁后电源 / 12V+</td><td>48V 或 12V</td></tr>
-        <tr><td><span class="wire" style="background:#fdd835"></span>黄（粗）</td><td>电机相线 U</td><td>三相交流（PWM）</td></tr>
-        <tr><td><span class="wire" style="background:#1e88e5"></span>蓝（粗）</td><td>电机相线 V</td><td>三相交流（PWM）</td></tr>
-        <tr><td><span class="wire" style="background:#43a047"></span>绿（粗）</td><td>电机相线 W</td><td>三相交流（PWM）</td></tr>
-        <tr><td><span class="wire" style="background:#43a047"></span>绿（细）</td><td>转把信号 / 霍尔 C</td><td>0~5V</td></tr>
-        <tr><td><span class="wire" style="background:#fdd835"></span>黄（细）</td><td>霍尔 A / 转向灯（部分车型）；转向灯左右颜色通常不同，常见 左蓝右橙 / 左绿右黄，需结合实车</td><td>0~5V / 12V</td></tr>
-        <tr><td><span class="wire" style="background:#1e88e5"></span>蓝（细）</td><td>霍尔 B / 转向灯（部分车型）；左右异色，常见 左蓝右橙 / 左绿右黄，以实车为准</td><td>0~5V / 12V</td></tr>
-        <tr><td><span class="wire" style="background:#e53935"></span>细红（少数车粉/浅红）</td><td>霍尔 +5V 供电</td><td>5V（与转把+5V 同色，靠万用表区分；部分车型用粉/浅红以免混）</td></tr>
-        <tr><td><span class="wire" style="background:#9e9e9e"></span>白</td><td>限速线 / 学习线 / 低速信号</td><td>开关量</td></tr>
-        <tr><td><span class="wire" style="background:#8d6e63"></span>棕</td><td>刹车灯 / 巡航</td><td>12V / 开关量</td></tr>
-        <tr><td><span class="wire" style="background:#8e24aa"></span>紫</td><td>刹车断电 / 防盗</td><td>开关量</td></tr>
+        <tr><td><span class="wire" style="background:#e53935"></span>红（粗）</td><td>主电源正极 B+</td><td>48~72V</td><td>动力主回路</td></tr>
+        <tr><td><span class="wire" style="background:#263238"></span>黑（粗）</td><td>主电源负极 B− / 全车地</td><td>0V</td><td>动力主回路（地）</td></tr>
+        <tr><td><span class="wire" style="background:#e53935"></span>红（细）</td><td>电门锁前电源 / +5V 供电</td><td>48V 或 5V</td><td>锁前电源 / 5V 供电</td></tr>
+        <tr><td><span class="wire" style="background:#fb8c00"></span>橙</td><td>电门锁后电源 / 12V+</td><td>48V 或 12V</td><td><b>锁后高压 或 12V 辅助（看所在回路！）</b></td></tr>
+        <tr><td><span class="wire" style="background:#fdd835"></span>黄（粗）</td><td>电机相线 U</td><td>三相交流（PWM）</td><td>动力主回路</td></tr>
+        <tr><td><span class="wire" style="background:#1e88e5"></span>蓝（粗）</td><td>电机相线 V</td><td>三相交流（PWM）</td><td>动力主回路</td></tr>
+        <tr><td><span class="wire" style="background:#43a047"></span>绿（粗）</td><td>电机相线 W</td><td>三相交流（PWM）</td><td>动力主回路</td></tr>
+        <tr><td><span class="wire" style="background:#43a047"></span>绿（细）</td><td>转把信号 / 霍尔 C</td><td>0~5V</td><td>5V 信号回路</td></tr>
+        <tr><td><span class="wire" style="background:#fdd835"></span>黄（细）</td><td>霍尔 A / 转向灯（部分车型）；转向灯左右颜色通常不同，常见 左蓝右橙 / 左绿右黄，需结合实车</td><td>0~5V / 12V</td><td>5V 信号 / 12V 灯光</td></tr>
+        <tr><td><span class="wire" style="background:#1e88e5"></span>蓝（细）</td><td>霍尔 B / 转向灯（部分车型）；左右异色，常见 左蓝右橙 / 左绿右黄，以实车为准</td><td>0~5V / 12V</td><td>5V 信号 / 12V 灯光</td></tr>
+        <tr><td><span class="wire" style="background:#e53935"></span>细红（少数车粉/浅红）</td><td>霍尔 +5V 供电</td><td>5V（与转把+5V 同色，靠万用表区分；部分车型用粉/浅红以免混）</td><td>5V 供电</td></tr>
+        <tr><td><span class="wire" style="background:#9e9e9e"></span>白</td><td>限速线 / 学习线 / 低速信号</td><td>开关量</td><td>信号回路</td></tr>
+        <tr><td><span class="wire" style="background:#8d6e63"></span>棕</td><td>刹车灯 / 巡航</td><td>12V / 开关量</td><td>12V 辅助回路</td></tr>
+        <tr><td><span class="wire" style="background:#8e24aa"></span>紫</td><td>刹车断电 / 防盗</td><td>开关量</td><td>信号回路</td></tr>
       </tbody>
     </table>
     <div class="callout warn">
@@ -1251,6 +1273,11 @@
     <h4 id="s5-4-3">5.4.3 场景 B（不能操作把手）：靠"通断追线 + 上电特征"识别</h4>
     <p class="lead">插头拆开、又<b>操作不了把手</b>（开关总成已拆下、车把不在、或够不到）时，5.4.2 的"操作变化法"用不上。改用两条思路：<b>通断追线到已知器件</b> + <b>上电电压特征</b>。</p>
 
+    <div class="callout warn">
+      <b>先看清前提（很重要）</b>
+      "通断追线"依赖<b>线路两端都还在车上</b>：插头针一端、目标器件（灯 / 开关 / 控制器端子）另一端，靠通断档把两者连起来认身份。若线束已与所有器件断开、成为一根<b>孤立的线束</b>（整车不在旁边、无电池、无器件可追），这招就<b>失效</b>——此时只能按标准线色 / 孔位给出"最可能"假设，装车后再用 5.4.2 的操作法或上电特征最终确认（详见 5.4.3.3）。
+    </div>
+
     <h4 id="s5-4-3-1">5.4.3.1 核心：逐根"通断追线"到器件端子（不操作开关也能做）</h4>
     <p class="lead">先按 5.4.2 ①② 定出 <b>GND / 12V</b>（这两步本来就不碰把手），再对剩余信号线用"通断追线"定位："操作开关"本质上只是让某根线<b>临时接通</b>来暴露身份；更直接的是——插头已拆开，每根线都能从插头端一路量到它真正的<b>目的地</b>。哪怕不捏刹、不拨转向，刹把 / 转向开关 / 喇叭 / 大灯的<b>本体或线束还在车上</b>，用通断档量"插头针 ↔ 目标端子"是否同一条线即可判定，全程不用动一下把手。</p>
 
@@ -1421,6 +1448,156 @@
         <li><b>充电注意事项</b>：充电一般<b>不必断开负载</b>，但建议<b>关钥匙</b>充电，避免 DC 转换器持续工作发热；充电口端子氧化/松动会发热打火，定期检查、涂导电膏或更换。</li>
         <li><b>防水与线束保护</b>：维修后车头线束、电机霍尔插头必须恢复防水（防水接头/打胶）；用波纹管或扎带固定线束，避免与车架摩擦破皮；绝缘恢复务必到位。</li>
       </ul>
+
+            <h3 id="s7-4">7.4 更换电路设备通用注意事项</h3>
+
+      <div class="callout danger">
+        <b>换件安全红线（开干前必读）</b>
+        <ul class="min">
+          <li><b>严禁用短接试功能</b>：5V 信号线短到 12V 烧控制器；三相短接锁死电机；12V 主线短地烧保险/起火。认线用通断档追线，不是短接。</li>
+          <li><b>严禁加大保险丝</b>：保险是按线/负载定的，加大=撤掉保护、直接引火。</li>
+          <li><b>严禁带电插拔主电源插头</b>：48/60/72V 大电流会打火、粘连、伤手。</li>
+          <li><b>断电先放电</b>：拔电池主插头（或断空开），等控制器主电容放电、确认 0V 再碰线。</li>
+          <li><b>防反接 / 绝缘恢复</b>：12V 件正负极、电池 B+/B− 绝不反；线头热缩管/防水胶带包好。</li>
+          <li><b>线径随电流</b>：电流翻倍要加粗线（参考 5.2），细线发热起火烧车。</li>
+        </ul>
+      </div>
+
+      <p>换件不是“对插就行”——电压、电流、极性、相序、接地任一不对，都可能不工作甚至烧车。下面四步按<b>动手前 → 选件 → 接线 → 测试</b>逐项核对（手机/打印更直观）：</p>
+
+      <ul class="checklist">
+        <li><b>断电</b>：关钥匙、拔电池主插头、确认电容放电 0V。</li>
+        <li><b>选件</b>：电压平台、电流额定、接口/线色三匹配。</li>
+        <li><b>接线</b>：极性、相序（三相/霍尔）、全车共地。</li>
+        <li><b>测试</b>：先不通电 → 再低压点动 → 最后上电试车。</li>
+      </ul>
+
+      <div class="callout info">
+        <b>电压术语统一（全文一致）</b>
+        <ul class="min">
+          <li><b class="hv">锁后高压（48/60/72V）</b>：电门锁之后的<b>电池组电压</b>，仍是高压，测与碰都按高压对待。</li>
+          <li><b class="lv">锁后 12V</b>：经 <a href="#s4-7">DC-DC 转换器</a> 后的低压 12V，只供灯光/仪表/喇叭等辅助负载。</li>
+        </ul>
+        下文统一用 <b class="hv">高压</b> / <b class="lv">12V</b> 标注，避免混淆。
+      </div>
+
+      <h4 id="s7-4-1">7.4.1 各部件更换专项流程</h4>
+      <p>通用四步之上，各部件的特殊要点见下表（速查用，点开展开）：</p>
+      <details class="fold">
+        <summary>展开 / 收起 · 各部件专项流程表</summary>
+        <table>
+          <thead><tr><th>部件</th><th>选件关键</th><th>接线关键</th><th>测试关键</th></tr></thead>
+          <tbody>
+            <tr><td>电池组</td><td>电压平台(48/60/72V)、电池类型(三元/铁锂/高压三元)、接口与通讯匹配</td><td>B+/B− 极性严禁反接；带通讯接对通讯线；主回路线径用原规格并拧紧</td><td>不通电测主回路通断与绝缘，确认无短路再上电；看仪表电压与欠压保护点</td></tr>
+            <tr><td>控制器</td><td>电压、功率、相位(正弦/方波)、是否支持自学习匹配</td><td>三相/霍尔/转把/刹车/电门锁/三速/仪表逐根对应；相序靠自学习或手动对调</td><td>不通电查三相/霍尔通断，上电学习；转把 5V/信号、刹车断正常，无飞车</td></tr>
+            <tr><td>电机与霍尔</td><td>电压/功率匹配；霍尔角度(120°/60°)与控制器兼容</td><td>三相相序、霍尔 5V/地/3 相不可错；防水接头复原</td><td>转动无异响抖动；霍尔 5V 正常、三相随转变化；反转对调两相</td></tr>
+            <tr><td>转把</td><td>输出型(多为 1–4.2V，少 0–5V 或负逻辑)与控制器匹配，三线(5V/信号/地)</td><td>5V 与地不可反；信号线对 5V 短路会飞车，须可靠绝缘</td><td>转动信号 0.8–4.2V 平滑变化，松手回 0.8V 附近，无飞车</td></tr>
+            <tr><td>刹车断电(微动)</td><td>高刹/低刹与控制器一致；<b>常开微动</b>串在信号线里</td><td>追手把开关针侧接线柱再接控制器刹车口，勿与 12V 混</td><td>捏刹→控制器断输出；万用表测高/低变化；微动<b>常开：按下导通、松开断开，可用通断档验证</b></td></tr>
+            <tr><td>电门锁</td><td>锁体触点电流额定 ≥ 整车使能电流</td><td>锁后输出接控制器锁线端；其电压为 <b class="hv">高压(48/60/72V)</b>，按高压对待</td><td>钥匙 ON 测锁后有高压、OFF 则无；整车可上电/断电</td></tr>
+            <tr><td>DC-DC 转换器</td><td>输入=锁后<b class="hv">高压</b>(48/60/72V，非 12V)；输出 12V，电流额定常见 <b>10A / 15A</b>，须 ≥ 12V 总负载并留 20% 余量</td><td>输入+接锁后、输入−接电池负；输出 12V 与 GND 接母线</td><td>钥匙 ON 测输出 12V、OFF 为 0V，带载不塌陷</td></tr>
+            <tr><td>仪表盘</td><td>电压平台与通讯(模拟/一线通/二线通/串口)与控制器匹配</td><td>速度/电量/转把/刹车信号对应；共地可靠</td><td>上电显示电压/电量合理，速度随轮转，转向/远光指示灯受控</td></tr>
+            <tr><td>灯光(大灯/远近光/转向/尾灯/刹车灯)</td><td>电压 12V；大灯电流过手把开关须核算或加继电器；功率总和 ≤ DC-DC 预算</td><td>12V 端直连母线、开关控接地/选通(或串联控制型)，接地可靠</td><td>远近光、转向闪烁、刹车灯、尾灯逐项亮，无闪烁暗淡，不超 DC-DC 容量</td></tr>
+            <tr><td>手把组合开关(9 孔 8 线)</td><td>针定义按实车；拆开贴 1–8 号标签；集成度因车而异(刹车/三速可能不在此头)</td><td>通断档追线定针，对应控制器/灯插头；1 孔空置防呆勿强插</td><td>大灯/转向/喇叭/三速/刹车断电各功能逐一验证</td></tr>
+            <tr><td>喇叭</td><td>12V 有源喇叭，电流额定注意部分经手把开关载流</td><td>12V 端直连母线(不经手把开关 12V 进线)，按钮端接手把开关接地控制</td><td>按键响、松开静、不烧保险</td></tr>
+            <tr><td>三速开关</td><td>与控制器三速口(S1/S2/S3+公共端)匹配</td><td>追各档位/公共端接线柱到三速口；与刹车/巡航/学习线混且无标识时逐根追</td><td>切换低/中/高速，车速档位响应正确</td></tr>
+            <tr><td>充电口</td><td>电压/接口形状匹配；带防反接二极管注意正向压降 <b>0.3~0.7V</b>(二极管档测正向有压降、反向无穷大)，充电器输出须略高</td><td>直连电池、极性严格，二极管方向正确</td><td>充电电流正常，口不发热打火(氧化则清理)</td></tr>
+            <tr><td>防盗器</td><td>电压 12V(锁后)或电池，遥控器频率匹配</td><td>锁电机/报警输出接控制器对应口，电源接锁后 12V</td><td>设防/撤防、锁电机、报警功能正常</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <div class="callout info">
+        <b>拆装纪律</b>
+        拆前拍照、给每根线贴号标签（如 9 孔 8 线拆开贴 1–8 号），避免装回错乱；恢复防水接头、扎带固定线束，绝缘恢复到位。
+      </div>
+
+      <h3 id="s7-5">7.5 加装常见外设</h3>
+
+      <div class="callout danger">
+        <b>加装红线（开干前必读）</b>
+        <ul class="min">
+          <li><b>禁止从控制器信号线、霍尔线、转把线取电</b>：会干扰控制逻辑、烧控制器。</li>
+          <li><b>5V 设备必须降压</b>：经降压模块（12V→5V），严禁直连 12V / 高压。</li>
+          <li><b>独立保险</b>：新增线路必加独立保险，容量不得大于原车对应支路。</li>
+          <li><b>计入 12V 总账</b>：所有新增 12V 负载之和 ≤ DC-DC 额定，留 20% 余量。</li>
+        </ul>
+      </div>
+
+      <h4>第一步：先定取电点</h4>
+      <p>加装件都从“取电点”并联取电，三类：</p>
+      <ul class="min">
+        <li><b>电池常供（B+）</b>：熄火也有电，用于 GPS / 防盗常追踪；注意长期停放耗电。</li>
+        <li><b class="lv">锁后 12V</b>（<a href="#s4-7">DC-DC</a> 输出，钥匙 ON 才有）：灯 / USB / 记录仪 / 加热把手等。</li>
+        <li><b>信号触发</b>（转向 / 刹车 / 倒车线）：做随动灯、流水灯、报警器，详见 <a href="#s4-9">灯光与手把</a> / <a href="#s4-5">刹车断电</a>。</li>
+      </ul>
+
+      <div class="callout info">
+        <b>通用接线要点（所有 12V 设备通用，下列设备不再重复）</b>
+        并联到 12V 母线与 GND；接地可靠（接地不良会闪烁/暗淡）；线头绝缘到位、防水；新增负载计入 12V 总账。下文只写各设备的<b>特殊点</b>。
+      </div>
+
+      <h4>第二步：按取电类型分组</h4>
+
+      <details class="fold">
+        <summary>A 组 · 电池常供（熄火也工作）</summary>
+        <ul class="dev">
+          <li><b>GPS 定位 / 防盗追踪</b>：天线朝天无遮挡；常供注意总耗电，避免久停亏电。</li>
+          <li><b>震动防盗声光报警器（独立）</b>：熄火也守；注意误报与长期耗电。</li>
+          <li><b>太阳能补电板（12V 小板）</b>：并 12V 母线（经防反充二极管）；功率有限，仅减缓久停亏电。</li>
+        </ul>
+      </details>
+
+      <details class="fold">
+        <summary>B 组 · 锁后 12V（钥匙 ON 才有）</summary>
+        <ul class="dev">
+          <li><b>蓝牙模块 / 音箱</b>：5V 类经降压；开机配对、音量正常。</li>
+          <li><b>NFC 无钥匙解锁</b>：信号接电门锁/使能端；留意待机功耗。</li>
+          <li><b>USB 充电口（5V / 快充）</b>：12V+降压模块。普通 5V/2A 约 10W；要<b>快充</b>须用支持 QC/PD 协议的降压车充模块（如 9V/2A≈18W、12V/1.5A≈18W），模块标称功率 ≥ 手机峰值并留余量；输出用正规 USB-A/C 口，线材须支持快充（细线限流、充不进快充）；带载电压不塌陷，模块散热防水。快充头本身仍从 12V 取电，<b>不要直连高压</b>。</li>
+          <li><b>点烟器母座（12V 取电口）</b>：标准 12V 母座，<b>并联锁后 12V 母线与 GND</b>（非高压）；注意母座额定电流（常见 10A/15A，上限约 120/180W），所接车载设备总功率不得超额定；点烟器加热片发热大、须配独立保险；防水防尘、插头勿松动打火；插入车充/快充头即从 12V 降压输出，<b>严禁把母座接到高压</b>。</li>
+          <li><b>行车记录仪</b>：熄火不录用锁后，停车监控走常供(耗电大)。</li>
+          <li><b>氛围灯 / 灯带</b>：可并转向/刹车信号做随动；不超 DC-DC 预算、防水。</li>
+          <li><b>胎压监测 TPMS</b>：显示器接锁后 12V；传感器装轮内与显示器配对。</li>
+          <li><b>倒车雷达 / 蜂鸣器</b>：触发接倒车线/倒车开关；探头朝后无遮挡。</li>
+          <li><b>加热把手 / 坐垫</b>：大电流，<b>独立开关+独立保险</b>，线径加粗；<b>与转把信号线保持距离</b>防干扰；绝不盲加大保险。</li>
+          <li><b>前射灯 / 雾灯</b>：独立开关+继电器(大电流不经手把开关)；照射角不可晃对向车。</li>
+          <li><b>智能尾灯 / 流水转向灯</b>：并转向/刹车信号做流水/爆闪；防水。</li>
+          <li><b>无线充电手机支架</b>：12V+降压(→5V/无线)；散热与减震。</li>
+          <li><b>光感自动大灯</b>：光敏驱动大灯继电器；<b>传感器朝上避免遮挡</b>；遮光即亮、见光即灭。</li>
+          <li><b>遥控 / APP 启动</b>：蓝牙/4G 接电门锁使能；与 NFC 互补可远程上电。</li>
+          <li><b>外置电压 / 电量显示器</b>：测电池 B+ 对 B−(<b class="hv">高压</b>，按高压对待)或 12V；专用表头/分压，线细即可。</li>
+          <li><b>蓝牙 OBD 诊断</b>：接控制器通讯口；认准通讯口勿误接信号线。</li>
+          <li><b>逆变器（12V→220V 小功率）</b>：耗电大，严计总账；功率建议 ≤ DC-DC 容量 50%（转换效率与散热）；<b>通风散热</b>。</li>
+        </ul>
+      </details>
+
+      <details class="fold">
+        <summary>C 组 · 信号 / 控制器接口</summary>
+        <ul class="dev">
+          <li><b>边撑 / 中撑断电开关（安全件）</b>：锁后 12V，串入控制器使能或复用刹车逻辑，撑起即断动力防窜车；强烈推荐。</li>
+          <li><b>限速 / 儿童锁模式</b>：取控制器信号，软/硬件限最高速或密码解锁；家长控制用。</li>
+        </ul>
+      </details>
+
+      <h4>第三步：12V 功率预算表（避免超载 DC-DC）</h4>
+      <table>
+        <thead><tr><th>设备</th><th>典型功耗</th><th>建议线径</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr><td>USB 充电(5V/2A)</td><td>~10W</td><td>0.5 mm²</td><td>需 12V→5V 降压模块</td></tr>
+          <tr><td>USB 快充(QC/PD)</td><td>15~22W</td><td>0.5~0.75 mm²</td><td>需支持 QC/PD 的降压车充模块，线材支持快充</td></tr>
+          <tr><td>点烟器母座(带载)</td><td>≤120W(10A)/≤180W(15A)</td><td>1.0~1.5 mm²</td><td>并锁后 12V，配独立保险，勿接高压</td></tr>
+          <tr><td>加热把手</td><td>30~50W</td><td>1.0~1.5 mm²</td><td>独立开关+独立保险</td></tr>
+          <tr><td>LED 大灯</td><td>10~30W</td><td>0.75 mm²</td><td>超原车灯功率建议加继电器</td></tr>
+          <tr><td>GPS 定位</td><td>&lt;1W</td><td>0.3 mm²</td><td>常供注意待机耗电</td></tr>
+          <tr><td>氛围灯带</td><td>5~15W</td><td>0.5 mm²</td><td>随动型另并信号线</td></tr>
+          <tr><td>行车记录仪</td><td>3~8W</td><td>0.5 mm²</td><td>停车监控走常供耗电大</td></tr>
+          <tr><td>逆变器(小功率)</td><td>40~100W+</td><td>1.5 mm²+</td><td>功率 ≤ DC-DC 容量 50%</td></tr>
+          <tr><td>前射灯(辅助)</td><td>20~40W</td><td>1.0 mm²</td><td>独立继电器，不经手把开关</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn">
+        <b>预算怎么算</b>
+        把上表“典型功耗”相加得 12V 总功耗(W) ÷ 12 ≈ 总电流(A)；须 ≤ DC-DC 额定(常见 10A/15A) 并留 20% 余量。例：原车灯/仪表/喇叭约 50W，再加 USB 10W + 加热 40W = 100W ≈ 8.3A，10A 转换器余量仅 17% 偏紧——建议换 15A 或减载。
+      </div>
   </div>
 </section>
 
