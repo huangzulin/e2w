@@ -75,13 +75,14 @@
   nav.toc a.sub.active{background:var(--blue);color:#fff}
   nav.toc a:hover{color:var(--blue);background:var(--info-bg)}
   section{margin-top:44px}
-  h2{font-size:23px;margin:0 0 6px;padding-bottom:10px;border-bottom:3px solid var(--blue);display:inline-block}
+  h2{font-size:23px;margin:0 0 16px;padding-bottom:12px;border-bottom:3px solid var(--blue);display:block}
   h2 .no{color:var(--blue);margin-right:10px;font-weight:700}
   h3{font-size:18px;margin:28px 0 10px;color:var(--blue-dark)}
   h3::before{content:"▍";color:var(--blue);margin-right:6px}
   h4{font-size:15.5px;margin:20px 0 8px}
   p{margin:10px 0;color:var(--ink)}
-  .lead{color:var(--muted)}
+  .lead{color:var(--muted);font-size:15px;line-height:1.85}
+  .lead b,.lead strong{color:var(--blue-dark)}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.03)}
   .callout{border-radius:10px;padding:14px 18px;margin:16px 0;font-size:14.5px}
   .callout.warn{background:var(--warn-bg);border:1px solid var(--warn-line)}
@@ -214,6 +215,21 @@
       <a href="#s7-6" class="sub">·7.6 隐性断线排查</a>
       <a href="#s7-7" class="sub">·7.7 疑难杂症速查</a>
       <a href="#s7-8" class="sub">·7.8 技巧与应急偏方</a>
+      <a href="#s8">8 充电与电池保养</a>
+      <a href="#s8-1" class="sub">·8.1 充电器与回路</a>
+      <a href="#s8-2" class="sub">·8.2 防反接与发热</a>
+      <a href="#s8-3" class="sub">·8.3 保养·均衡·存储</a>
+      <a href="#s8-4" class="sub">·8.4 低温与续航</a>
+      <a href="#s9">9 防水防潮与线束</a>
+      <a href="#s9-1" class="sub">·9.1 进水高发点</a>
+      <a href="#s9-2" class="sub">·9.2 防水施工</a>
+      <a href="#s9-3" class="sub">·9.3 线束与端子保养</a>
+      <a href="#s9-4" class="sub">·9.4 老化判别更换</a>
+      <a href="#s10">10 仪表通讯协议</a>
+      <a href="#s10-1" class="sub">·10.1 三类接口</a>
+      <a href="#s10-2" class="sub">·10.2 识别与测量</a>
+      <a href="#s10-3" class="sub">·10.3 协议不对的表现</a>
+      <a href="#s10-4" class="sub">·10.4 改装注意</a>
       </div>
   </aside>
 </nav>
@@ -1495,6 +1511,8 @@
 
       <p>基础流程与要点讲完，下面进入动手环节：先换件，再加装。</p>
 
+      <p class="lead">（动手篇）7.4 换件与 7.5 加装是本章真正“上手”的部分；动手前先回看本章开头红线总览与第 1 章安全须知。7.6–7.8 则是排查与经验。</p>
+
       <h3 id="s7-4">7.4 更换电路设备通用注意事项</h3>
 
       <div class="callout danger">
@@ -1833,6 +1851,147 @@
       <div class="callout warn">
         <b>记住</b>：这些“巧”都是权宜。脱困后务必按 7.4 标准流程换回合规件、恢复保险与防水——把偏方当永久解法，迟早出事。
       </div>
+  </div>
+</section>
+
+<!-- ================= 8 充电与电池保养 ================= -->
+<section id="s8">
+  <h2><span class="no">8</span>充电与电池保养</h2>
+  <div class="card">
+    <p class="lead">接第 7 章的实战排查，本章回到“能量来源”——充电器、电池与低温环境。读懂充电回路，能避开“充不进 / 充鼓包 / 冬天趴窝”三类高发问题。</p>
+
+    <h3 id="s8-1">8.1 充电器与充电回路</h3>
+    <ul>
+      <li><b>充电器本质</b>：AC220V → 开关电源 → <b>恒流(CC)+恒压(CV)</b>两阶段给电池。先恒流把电量快速灌满，后恒压把末尾“补满”，电流降到阈值即转绿灯。</li>
+      <li><b>充电回路走向</b>：充电口 → 电池 <span class="hv">B+</span>/<span class="hv">B−</span>（<b>直连电池，不经电门锁</b>）。部分车型在充电口正极串一颗<b>防反接二极管</b>。</li>
+      <li><b>满电电压 = 串数 × 单体满电电压</b>。三元锂 4.2V/串，高压三元 4.35V/串，铁锂 3.65V/串。常见整车标称与整包满电对照：</li>
+    </ul>
+    <table>
+      <thead><tr><th>整车标称</th><th>化学体系</th><th>典型串数</th><th>整包满电电压</th></tr></thead>
+      <tbody>
+        <tr><td>48V</td><td>三元</td><td>13 串</td><td>约 54.5V</td></tr>
+        <tr><td>60V</td><td>三元</td><td>17 串</td><td>约 71.4V</td></tr>
+        <tr><td>72V</td><td>三元</td><td>20 串</td><td>约 84V</td></tr>
+        <tr><td>60V / 72V</td><td>高压三元(4.35V)</td><td>同串数</td><td>约 73.9V / 87V</td></tr>
+        <tr><td>48V / 60V</td><td>铁锂(3.65V)</td><td>随厂家</td><td>以电池标签为准</td></tr>
+      </tbody>
+    </table>
+    <div class="callout info">
+      <b>怎么判断该用哪种充电器</b>：看电池外壳标签的“额定 / 满电电压”与 BMS 参数，<b>不是看车头标 48 / 60 / 72</b>。高压三元误用普通充电器会充不满，普通三元误用高压充电器会过充发热。
+    </div>
+
+    <h3 id="s8-2">8.2 防反接与充电口发热</h3>
+    <ul>
+      <li><b>防反接二极管</b>：正向导通压降约 0.3~0.7V，反向截止（阻值∞）。用万用表<b>二极管档</b>测：正向有读数、反向显示“1 / ∞”为正常；若正反向都通或都断，说明已击穿或开路，表现为<b>充不进 / 充电口发热</b>。</li>
+      <li><b>充电口发热 / 打火</b>：九成是<b>接触不良</b>——端子氧化发黑、公母配合松动、未插到底。处理：断电后清洁端子、校正弹片、拧紧或更换充电座。</li>
+      <li><b>混用充电器风险</b>：电压 / 接口 / 协议不符 → 充鼓包、不进电、甚至过充。原则：<b>电池标签与 BMS 参数为准，不盲插</b>。</li>
+    </ul>
+
+    <h3 id="s8-3">8.3 电池保养 · 均衡 · 存储</h3>
+    <ul>
+      <li><b>均衡</b>：长期浅充浅放会让某串“落后”，BMS 均衡电流很小、只能慢慢拉平。定期<b>一次性充满</b>让均衡充分进行；落后严重（压差 &gt;0.1~0.2V/串）需专业均衡仪。</li>
+      <li><b>存放</b>：长期不用保持 <b>40%~60% 电量</b>，放阴凉干燥处；<b>每月补一次电</b>，避免彻底饿死（过放后 BMS 锁死、可能永久损坏）。</li>
+      <li><b>寿命信号</b>：续航骤降、单串压差明显、外壳<b>鼓包</b> → 立即停用更换，鼓包电池有起火风险。</li>
+    </ul>
+
+    <h3 id="s8-4">8.4 低温环境与续航</h3>
+    <ul>
+      <li><b>低温的物理影响</b>：锂离子在低温下内阻升高、可用容量下降——0°C 约剩 80%，−10°C 约剩 60%~70%。表现为“冬天虚电、加速无力、一加速就掉压”。</li>
+      <li><b>应对</b>：尽量<b>室内充电</b>；出行前先缓速热车；避免深放；电池包可加保温套（勿密封致过热）。</li>
+      <li><b>红线</b>：0°C 以下多数 BMS 会<b>禁止快充</b>甚至禁充，属保护而非故障；勿为“救续航”强行加热致过热或短路。</li>
+    </ul>
+    <div class="callout info">
+      <b>顺接下一章</b>：低温与涉水都会放大接触不良和进水风险，而“水”正是下一章的主题。
+    </div>
+  </div>
+</section>
+
+<!-- ================= 9 防水防潮与线束保养 ================= -->
+<section id="s9">
+  <h2><span class="no">9</span>防水防潮与线束保养</h2>
+  <div class="card">
+    <p class="lead">电动车过半故障与“水 / 潮 / 老化”相关。本章讲清进水高发点、可落地的防水施工、线束与端子保养，以及何时该换线。</p>
+
+    <h3 id="s9-1">9.1 进水高发点</h3>
+    <table>
+      <thead><tr><th>高发点</th><th>进水后果</th><th>预防</th></tr></thead>
+      <tbody>
+        <tr><td>控制器散热缝 / 壳体</td><td>内部短路、MOS 击穿、飞车</td><td>装车朝上避溅；散热缝贴防水透气膜</td></tr>
+        <tr><td>电机端盖 / 相线出线口</td><td>定子生锈、霍尔坏、异响</td><td>出线口朝下走、接头做防水</td></tr>
+        <tr><td>充电口（朝上）</td><td>积水导电、充电打火</td><td>加硅胶防尘帽、朝下或侧装</td></tr>
+        <tr><td>九孔 8 线 / 手把插头</td><td>信号时好时坏、转向/刹车失灵</td><td>插紧、缠自融胶带（见 9.2）</td></tr>
+        <tr><td>仪表背后 / 刹车断电线</td><td>显示乱、刹车误触发</td><td>背面涂 704、线头热缩</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="s9-2">9.2 防水施工（动手篇）</h3>
+    <ul>
+      <li><b>材料</b>：带胶热缩管、自融硅胶带、704 室温硫化硅胶、凡士林、防水接头（优先原厂防水插件）。</li>
+      <li><b>接头做法</b>：先缠 1~2 层自融胶带再套带胶热缩管，热风枪吹缩；裸露针脚薄涂 704 硅胶。</li>
+      <li><b>充电口</b>：不充时盖防尘帽；长期室外可向下或侧向安装。</li>
+      <li><b>控制器散热缝</b>：贴<b>防水透气膜</b>——既挡水又保留散热，比整块封死更合理。</li>
+    </ul>
+    <div class="callout warn">
+      <b>红线</b>：<b>带电 / 高压下禁止喷水或喷清洗剂</b>；硅胶未完全固化前勿通电；热缩管远离燃油（见 7.8 红线禁区）。
+    </div>
+
+    <h3 id="s9-3">9.3 线束固定与端子保养</h3>
+    <ul>
+      <li><b>固定</b>：用线卡 / 扎带把线束贴车体走，避免与车架 / 轮胎磨破；相线远离转把 / 霍尔等信号线（并行无屏蔽会干扰，见 7.7 二）。</li>
+      <li><b>端子保养</b>：退针 / 氧化 → 断电拔出，清理氧化层、搪锡或重新压接，复位后确认卡紧。</li>
+      <li><b>接地螺栓</b>：全车 GND 多处共用地线，<b>接地螺栓锈松是大批“时好时坏”的根因</b>——除锈、拧紧、涂凡士林防氧化。</li>
+    </ul>
+
+    <h3 id="s9-4">9.4 老化判别与更换</h3>
+    <ul>
+      <li><b>线皮</b>：开裂、变硬发脆、表面发黏 = 老化，需整段更换。</li>
+      <li><b>端子</b>：发黑、松动、退针；热缩管脱落露出铜。</li>
+      <li><b>更换原则</b>：同规格线径（见 5.2）、同色或重新标记、恢复绝缘与固定；大电流线宁粗勿细。</li>
+    </ul>
+    <div class="callout info">
+      <b>顺接下一章</b>：信号线一旦受潮或线序不对，最先表现在仪表上——第 10 章讲清仪表与控制器之间的“对话方式”。
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10 仪表通讯协议 ================= -->
+<section id="s10">
+  <h2><span class="no">10</span>仪表通讯协议</h2>
+  <div class="card">
+    <p class="lead">仪表不只是一个“灯”，它和控制器之间靠通讯交换电量、速度、故障码。读懂三类协议，换仪表和排查“乱码”就不再抓瞎。与第 4 章仪表、第 5 章识线追线衔接。</p>
+
+    <h3 id="s10-1">10.1 三类仪表接口</h3>
+    <table>
+      <thead><tr><th>类型</th><th>线数</th><th>特征</th><th>常见车型</th></tr></thead>
+      <tbody>
+        <tr><td>双线模拟</td><td>2~3</td><td>电源 + 速度脉冲（磁钢/霍尔），靠脉冲算速度里程，信息少</td><td>老式简易表</td></tr>
+        <tr><td>一线通</td><td>3（电源+地+1 信号）</td><td>单根信号线串行传电量/速度/故障码，成本低</td><td>中低端主流</td></tr>
+        <tr><td>UART / 多线</td><td>4+（含 Tx/Rx）</td><td>双向通讯，传丰富数据，常需协议匹配</td><td>智能中控类</td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="s10-2">10.2 识别与测量</h3>
+    <ul>
+      <li><b>看线</b>：模拟多为 2~3 线；一线通是“电源 + 地 + 1 根信号”；UART 能找出 Tx/Rx 两根。</li>
+      <li><b>万用表</b>：先测电源（12V 或 5V）与地通断；信号线用<b>通断档追线</b>（见 5.4）确认去向。</li>
+      <li><b>示波器</b>：信号线应能看到脉冲 / 方波；纯直线 = 无通讯或断线。</li>
+    </ul>
+
+    <h3 id="s10-3">10.3 协议不对的故障表现</h3>
+    <ul>
+      <li>电量跳变、速度不准、乱码、不显示故障码。</li>
+      <li>误装不匹配仪表 → 全不显或数据全错。</li>
+      <li>排查：确认<b>同协议同接口</b>；查通讯线通断接触（见 7.6）；智能车型连 APP / 专用设备读故障码，别盲目对插。</li>
+    </ul>
+
+    <h3 id="s10-4">10.4 改装仪表注意</h3>
+    <div class="callout danger">
+      <b>红线</b>：换仪表必须<b>同协议、同接口</b>；接线前先断电放电（见第 1 章）；保留原车防盗 / 锁电机关联；不匹配宁可不加。
+    </div>
+    <ul>
+      <li><b>智能中控车型</b>（九号 / 小牛类）仪表与中控绑定，普通表无法直替，勿盲目对插，否则可能锁死。</li>
+      <li>加装仪表务必先<b>通断追线确认每根定义</b>，再接电试，避免 5V 短到 12V 烧控制器（见 7 章红线总览）。</li>
+    </ul>
   </div>
 </section>
 
